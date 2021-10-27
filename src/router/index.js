@@ -1,9 +1,26 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../views/Home.vue';
+import { createRouter, createWebHistory } from 'vue-router'
+import Home from '../views/Home.vue'
 
 const routes = [
   {
-    path: '/',
+    path: '',
+    name: 'Entry',
+    component: () => import('../views/index/Entry.vue'),
+    beforeEnter: (to, from, next) => {
+      // check if user is logged in
+      if (false) next({ path: '/home' }) 
+      else next()
+    },
+    children: [
+      {
+        path: 'login',
+        name: 'Login',
+        component: () => import('../views/auth/Login.vue'),
+      },
+    ],
+  },
+  {
+    path: '/home',
     name: 'Home',
     component: Home,
   },
@@ -15,11 +32,11 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
   },
-];
+]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-});
+})
 
-export default router;
+export default router
