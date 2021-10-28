@@ -5,8 +5,8 @@
       TransMeet
     </div>
     <div class="auth-header">
-      <div class="item sign-in" @click="showSignIn = true">Sign In</div>
-      <div class="item sign-up">Sign Up</div>
+      <TButton class="item sign-in" type="light" @click="showSignIn = true">Sign In</TButton>
+      <TButton class="item sign-up" type="normal" @click="showSignUp = true">Sign Up</TButton>
     </div>
     <div class="slogan p1">
       TransMeet
@@ -20,26 +20,30 @@
     <div class="slogan p4">
       To Eat
     </div>
-    <div class="content-pannel" v-if="showSignIn">
-      <div class="title">Sign In</div>
-      <el-input v-model="username" placeholder="Please input username" />
-    </div>
+    <SignIn v-if="showSignIn" @cancelSignIn="cancelSignIn" />
   </div>
 </template>
 
 <script>
+import SignIn from './SignIn.vue'
+import TButton from '../../components/common/TButton.vue'
+
 export default {
   name: 'Home',
   components: {
+    SignIn,
+    TButton,
   },
   data () {
     return {
-      username: '',
       showSignIn: false,
+      showSignUp: false,
     }
   },
   methods: {
-
+    cancelSignIn () {
+      this.showSignIn = false
+    },
   },
 }
 </script>
@@ -73,35 +77,16 @@ export default {
 .item {
   position: fixed;
   top: 20px;
-  width: 90px;
-  height: 36px;
-  line-height: 36px;
-  font-weight: 700;
-  font-size: 16px;
-  cursor: pointer;
+  line-height: 30px;
 }
 
 .sign-in {
-  color: #fff;
-  top: 20px;
   right: 180px;
 }
 
-.sign-in:hover {
-  transition: 0.3s;
-  color: $yellow;
-}
-
 .sign-up {
-  color: $text-color;
   right: 60px;
-  border-radius: 50vh;
-  background-color: #fff;
-}
-
-.sign-up:hover {
-  transition: 0.3s;
-  background-color: $yellow;
+  padding: 2px 10px;
 }
 
 .slogan {
@@ -130,16 +115,31 @@ export default {
 }
 
 .content-pannel {
-  width: 480px;
-  height: 630px;
+  width: 460px;
+  height: 430px;
   background-color: #333;
   /* filter: blur(1px); */
   opacity: 0.7;
-  position: fixed;
-  top: max(10%, 100px);
+  position: relative;
+  top: 180px;
   left: 50%;
   transform: translate(-50%);
   border-radius: 20px;
-  
+  padding-top: 60px;
+  .row {
+    width: 350px;
+    height: 35px;
+    margin: 0 auto;
+    margin-top: 60px;
+    color: #fff;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    .i {
+      width: 250px;
+    }
+  }
 }
 </style>
