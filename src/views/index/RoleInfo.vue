@@ -1,5 +1,5 @@
 <template>
-  <div class="sign-up-content role-info">
+  <div class="sign-up-content role-info" @keypress.enter.capture="register">
     <!-- if home user
     "marriage_status"
     "gender"

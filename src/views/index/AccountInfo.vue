@@ -1,5 +1,5 @@
 <template>
-  <div class="sign-up-content account-info">
+  <div class="sign-up-content account-info" @keypress.enter.capture="goNext">
     <div class="row">
       <div class="label">
         Username:
@@ -56,7 +56,7 @@ export default {
       debounce(() => this.$emit('goPrevious'), 500, this)()
     },
     goNext () {
-      this.$emit('completeAccount', { username: this.username, password: this.password })
+      if (this.completed) this.$emit('completeAccount', { username: this.username, password: this.password })
     },
   },
 }
