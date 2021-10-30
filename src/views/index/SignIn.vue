@@ -15,7 +15,6 @@
       <t-button type="normal" @click="onLogIn">Login</t-button>
     </div>
   </div>
-    
 </template>
 
 <script>

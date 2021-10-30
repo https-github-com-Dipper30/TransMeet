@@ -5,8 +5,8 @@
       TransMeet
     </div>
     <div class="auth-header">
-      <TButton class="item sign-in" type="light" @click="showSignIn = true">Sign In</TButton>
-      <TButton class="item sign-up" type="normal" @click="showSignUp = true">Sign Up</TButton>
+      <TButton class="item sign-in" type="light" @click="showSignInPanel">Sign In</TButton>
+      <TButton class="item sign-up" type="normal" @click="showSignUpPanel">Sign Up</TButton>
     </div>
     <div class="slogan p1">
       TransMeet
@@ -21,17 +21,20 @@
       To Eat
     </div>
     <SignIn v-if="showSignIn" @cancelSignIn="cancelSignIn" />
+    <SignUp v-if="showSignUp" @cancelSignUp="cancelSignUp" />
   </div>
 </template>
 
 <script>
 import SignIn from './SignIn.vue'
+import SignUp from './SignUp.vue'
 import TButton from '../../components/common/TButton.vue'
 
 export default {
   name: 'Home',
   components: {
     SignIn,
+    SignUp,
     TButton,
   },
   data () {
@@ -41,8 +44,19 @@ export default {
     }
   },
   methods: {
+    showSignInPanel () {
+      this.showSignUp = false
+      this.showSignIn = true
+    },
+    showSignUpPanel () {
+      this.showSignIn = false
+      this.showSignUp = true
+    },
     cancelSignIn () {
       this.showSignIn = false
+    },
+    cancelSignUp () {
+      this.showSignUp = false
     },
   },
 }

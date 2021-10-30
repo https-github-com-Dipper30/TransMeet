@@ -34,3 +34,16 @@ export const handleResult = (res, notifySuccess = true) => {
 export const isError = p => {
   return p?.code != 200 && p?.code != 201
 }
+
+export const debounce = (fn, interval, context) => {
+  let lastTimeStamp = 0
+  return function () {
+    const currentTime = new Date().getTime()
+    if (currentTime - lastTimeStamp > interval) {
+      const that = context
+      const args = arguments
+      fn.apply(that, args)
+    }
+    lastTimeStamp = currentTime
+  }
+}
