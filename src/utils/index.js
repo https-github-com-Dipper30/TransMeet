@@ -47,3 +47,31 @@ export const debounce = (fn, interval, context) => {
     lastTimeStamp = currentTime
   }
 }
+
+/**
+ * check if string is numeric
+ * @param {string} s
+ * @returns boolean
+ */
+export const stringIsNumeric = (s) => {
+  const stringIsDigit = /^\d+$/
+  return stringIsDigit.test(s)
+}
+
+/**
+ * check if parameter is number
+ * @param {any} p
+ * @returns boolean
+ */
+ export const isNumber = (p) => {
+  return typeof p == 'number'
+}
+
+/**
+ * return the unix timestamp of a date
+ * @param {Date} date 
+ * @returns {number} unix timestamp
+ */
+export const getUnixTimeStamp = (date) => {
+  return Math.floor(new Date(date).getTime() / 1000)
+}

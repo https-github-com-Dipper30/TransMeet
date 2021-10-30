@@ -18,7 +18,7 @@
     </div>
     <div class="options">
       <t-button type="light" style="text-decoration: underline;" @onClick="goPrevious">Previous</t-button>
-      <t-button :type="btnStyle" :disabled="!completed">Next</t-button>
+      <t-button :type="btnStyle" :disabled="!completed" @onClick="goNext">Next</t-button>
     </div>
   </div>
 </template>
@@ -55,27 +55,28 @@ export default {
       // debounce, cannot go back within 500 ms
       debounce(() => this.$emit('goPrevious'), 500, this)()
     },
+    goNext () {
+      this.$emit('completeAccount', { username: this.username, password: this.password })
+    },
   },
 }
 </script>
 
-<style lang="scss" scoped>
-.sign-up-content {
-  width: 460px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+<style lang="scss">
 .account-info {
-  padding-top: 36px;
-  input {
-    color: #fff;
+  .input {
+    .el-input__inner {
+      font-size: 16px;
+      font-weight: 400;
+    }
+    .el-input {
+      --el-input-placeholder-color: #888;
+      --el-input-font-color: #333;
+      & ::placeholder {
+        font-size: 12px;
+        font-weight: 300;
+      }
+    }
   }
-  .el-input {
-    --el-input-placeholder-color: #666;
-    --el-input-font-color: #333;
-  }
-
 }
 </style>

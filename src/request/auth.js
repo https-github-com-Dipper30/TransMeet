@@ -20,3 +20,4 @@ export const login = params => {
 export const register = params => {
   return http.post('/register', params)
 }
+

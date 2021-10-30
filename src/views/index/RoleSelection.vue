@@ -24,21 +24,15 @@ export default {
     selectRole (e) {
       const role_id = Number(e.srcElement.dataset.role)
       this.selectedRole = role_id
-      this.$emit('selectRole', role_id)
+      this.$emit('completeRole', { role_id })
     },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.sign-up-content {
-  width: 460px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
 .role-selection {
+  padding-top: 25px;
   .role-btn {
     width: 270px;
   }

@@ -1,12 +1,12 @@
 <template>
-  <div class="sign-up-pannel" :class="{'p1': p1, 'p2': p2, 'p3': p3}">
+  <div class="sign-up-pannel" :class="{'p1': p1, 'p2': p2, 'p3': p3, 'b': b}">
     <div class="cancel" @click="cancelSignIn" />
     <div class="title">{{ title }}</div>
     <div class="content" :class="{'p1': p1, 'p2': p2, 'p3': p3}">
       <!-- 3 steps in total -->
-      <RoleSelection @selectRole="selectRole"  />
-      <AccountInfo @goPrevious="goPrevious" />
-      <RoleInfo @goPrevious="goPrevious" />
+      <RoleSelection @completeRole="completeRole"  />
+      <AccountInfo @goPrevious="goPrevious" @completeAccount="completeAccount" />
+      <RoleInfo @goPrevious="goPrevious" @completeInfo="completeInfo" :roleID="roleID" />
     </div>
     
   </div>
@@ -17,6 +17,9 @@ import RoleSelection from './RoleSelection.vue'
 import RoleInfo from './RoleInfo.vue'
 import AccountInfo from './AccountInfo.vue'
 import { role } from '../../config/auth'
+import api from '../../request'
+import { ElMessage } from 'element-plus'
+import { handleResult } from '../../utils'
 
 export default {
   components: {
@@ -37,11 +40,13 @@ export default {
       city: null,
       state_id: null,
       zip_code: null,
+      registrationLock: false, // in case users register multiple times, after click on register, lock the button until callback
     }
     let currentProgress = 1
     return {
       currentProgress,
       form,
+      roleID: 0,
     }
   },
   computed: {
@@ -64,6 +69,10 @@ export default {
     p3 () {
       return this.canShowRoleInfo && this.currentProgress == 3
     },
+    // show business customer form height
+    b () {
+      return this.roleID == role.BUSINESS_CUSTOMER
+    },
     title () {
       if (this.p1) return 'Sign Up'
       return this.form.role_id == role.HOME_CUSTOMER ? 'Home Customer' : 'Business Customer'
@@ -73,12 +82,39 @@ export default {
     cancelSignIn () {
       this.$emit('cancelSignUp')
     },
-    selectRole (role_id) {
-      this.form.role_id = role_id
-      this.currentProgress = 2 // continue to next page
+    completeRole (role) {
+      const { role_id } = role
+      this.form = { ...this.form, role_id }
+      this.roleID = role_id
+      this.currentProgress = this.currentProgress + 1 // continue to next page
     },
     goPrevious () {
       this.currentProgress = this.currentProgress - 1
+    },
+    completeAccount (account) {
+      this.form = { ...this.form, ...account }
+      console.log(this.form)
+      this.currentProgress = this.currentProgress + 1 // continue to next page
+      console.log('roleid', this.b, this.p3)
+    },
+    async completeInfo (form) {
+      this.form = { ...this.form, ...form }
+      await this.onRegister()
+    },
+    async onRegister () {
+      const { register } = api
+      if (this.registrationLock) {
+        ElMessage({
+          message: 'Chill. We are processing your registration.',
+          type: 'error',
+        })
+        return 
+      }
+      this.registrationLock = true
+      const res = await register(this.form)
+      this.registrationLock = false
+      if (!handleResult(res)) return
+      this.$emit('showSignInPanel')
     },
   },
   mounted () {
@@ -98,20 +134,23 @@ export default {
   left: 50%;
   transform: translate(-50%);
   border-radius: 20px;
-  padding-top: 80px;
   overflow: hidden;
   transition: 0.3s;
+  padding-top: 106px;
   &.p1 {
-    height: 265px;
+    height: 210px;
     top: 180px;
   }
   &.p2 {
-    height: 300px;
-    top: 130px;
+    height: 244px;
+    top: 180px;
   }
   &.p3 {
-    height: 500px;
+    height: 535px;
     top: 120px;
+    &.b {
+      height: 475px;
+    }
   }
   .cancel {
     background-image: url('../../assets/common/cancel.png');
@@ -136,6 +175,27 @@ export default {
     cursor: default;
     width: 300px;
   }
+  .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 36px;
+    margin: 20px auto;
+    width: 380px;
+    cursor: default;
+    .label {
+      color: #fff;
+      font-weight: 400;
+      font-size: 18px;
+      width: 50px;
+      text-align: left;
+      line-height: 36px;
+    }
+    .input {
+      width: 250px;
+    }
+  }
   .content {
     overflow: hidden;
     position: absolute;
@@ -144,29 +204,14 @@ export default {
     display: flex;
     flex-direction: row;
     /* justify-content: center; */
-    align-items: center;
-
-    .row {
+    align-items: flex-start;
+    .sign-up-content {
+      width: 460px;
       display: flex;
-      flex-direction: row;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content: center;
       align-items: center;
-      height: 36px;
-      margin: 20px auto;
-      width: 380px;
-      .label {
-        color: #fff;
-        font-weight: 400;
-        font-size: 18px;
-        width: 50px;
-        text-align: left;
-        line-height: 36px;
-      }
-      .input {
-        width: 250px;
-      }
     }
-
     .options {
       display: flex;
       flex-direction: row;

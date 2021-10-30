@@ -21,7 +21,7 @@
       To Eat
     </div>
     <SignIn v-if="showSignIn" @cancelSignIn="cancelSignIn" />
-    <SignUp v-if="showSignUp" @cancelSignUp="cancelSignUp" />
+    <SignUp v-if="showSignUp" @cancelSignUp="cancelSignUp" @showSignInPanel="showSignInPanel" />
   </div>
 </template>
 

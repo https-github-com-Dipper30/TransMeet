@@ -19,7 +19,7 @@
 
 <script>
 import TButton from '../../components/common/TButton.vue'
-import { login } from '../../request/api'
+import api from '../../request'
 import { handleResult } from '../../utils/index.js'
 import { access } from '../../config/auth.js'
 
@@ -34,15 +34,26 @@ export default {
     return {
       username: '',
       password: '',
+      loginLock: false,
     }
   },
   methods: {
     async onLogIn () {
+      if (this.loginLock) {
+        ElMessage({
+          message: 'Chill. We are processing your registration.',
+          type: 'error',
+        })
+        return 
+      }
+      const { login } = api
+      this.loginLock = true
       const p = {
         username: this.username,
         password: this.password,
       }
       const res = await login(p)
+      this.loginLock = false
       if(!handleResult(res)) return
       const { token, user } = res.data
       this.$store.commit('setToken', token)
@@ -50,8 +61,10 @@ export default {
       const { auth } = user
       if (auth.includes(access.LOG_IN_ADMIN)) {
         // go to admin
-        
         this.$router.push('/admin')
+      } else if (auth.includes(access.LOG_IN_MAIN)){
+        // go to home
+        this.$router.push('/home')
       }
     },
     cancelSignIn () {
@@ -59,7 +72,6 @@ export default {
     },
   },
   mounted () {
-    // console.log(this.$route, this.$router)
   },
 }
 </script>
