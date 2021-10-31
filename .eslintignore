@@ -5,3 +5,4 @@
 node_module
 vue.config.js
 .assets/*
+.md

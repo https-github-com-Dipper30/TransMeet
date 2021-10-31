@@ -14,3 +14,4 @@
 
 1. onClick
 代替原生click事件，直接用作 <t-button @onClick="myEvent" />
+如果使用 @click 可能会导致事件触发两次

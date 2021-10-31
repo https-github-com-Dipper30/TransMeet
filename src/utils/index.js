@@ -8,7 +8,7 @@ import { ElMessage } from 'element-plus'
  * @param {boolean} notifySuccess 
  * @returns 
  */
-export const handleResult = (res, notifySuccess = true) => {
+export const handleResult = (res, notifySuccess = true, notifyMessage = 'Success!') => {
   if (isError(res)) {
     ElMessage({
       message: res.msg,
@@ -18,7 +18,7 @@ export const handleResult = (res, notifySuccess = true) => {
   } else {
     if (notifySuccess) {
       ElMessage({
-        message: res.msg || 'Success!',
+        message: notifyMessage,
         type: 'success',
       })
     }

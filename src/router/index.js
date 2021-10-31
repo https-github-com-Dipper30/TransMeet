@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import { adminRouter } from './adminRouter.js'
+import store from '../store'
+import { access } from '../config/auth'
 
 const routes = [
   {
@@ -16,7 +18,7 @@ const routes = [
       {
         path: 'login',
         name: 'Login',
-        component: () => import('../views/auth/Login.vue'),
+        component: () => import('../views/NoAuth.vue'),
       },
     ],
   },
@@ -27,11 +29,6 @@ const routes = [
     component: () => import('../views/NoAuth.vue'),
   },
   {
-    path: '/home',
-    name: 'Home',
-    component: Home,
-  },
-  {
     path: '/about',
     name: 'About',
     // route level code-splitting
@@ -40,7 +37,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
   },
   {
-    path: '/:any',
+    path: '/:pathMatch(.*)*',
     name: 'Empty',
 
     component: () => import('../views/Empty.vue'),
@@ -50,6 +47,21 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+})
+
+router.beforeEach(async (to, from, next) => {
+  if (to.meta && to.meta.needAdminAuth) {
+    let auth
+    const user = store.getters.getUser
+    if (user) auth = user.auth
+    else {
+      const res = await store.dispatch('actUser')
+      auth = res.auth
+    } 
+    if (!auth || !auth.includes(access.LOG_IN_ADMIN)) next({ path: '/no-auth' })
+    else next()
+  }
+  else next()
 })
 
 export default router

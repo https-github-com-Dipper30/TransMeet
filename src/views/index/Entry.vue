@@ -5,8 +5,8 @@
       TransMeet
     </div>
     <div class="auth-header">
-      <TButton class="item sign-in" type="light" @click="showSignInPanel">Sign In</TButton>
-      <TButton class="item sign-up" type="normal" @click="showSignUpPanel">Sign Up</TButton>
+      <TButton class="item sign-in" type="light" @onClick="showSignInPanel">Sign In</TButton>
+      <TButton class="item sign-up" type="normal" @onClick="showSignUpPanel">Sign Up</TButton>
     </div>
     <div class="slogan p1">
       TransMeet

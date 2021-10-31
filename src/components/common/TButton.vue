@@ -1,5 +1,5 @@
 <template>
-  <div class="t-btn" :class="{'normal': type == 'normal', 'light': type == 'light', 'disabled': disabled}" @click="onClick">
+  <div class="t-btn" :class="{'normal': type == 'normal', 'light': type == 'light', 'search': type == 'search', 'disabled': disabled}" @click="onClick">
     <slot />
   </div>
 </template>
@@ -33,6 +33,7 @@ export default {
   cursor: pointer;
   padding: 2px 18px;
   transition: 0.1s;
+  text-align: center;
   &.disabled {
     cursor: not-allowed;
     /* cursor: url('../../assets/common/disable.ico'); */
@@ -73,6 +74,21 @@ export default {
     color: $light-yellow;
     &.disabled {
       background-color: #fff;
+    }
+  }
+  &.search {
+    border: 2px solid $yellow;
+    border-radius: 5px;
+    background-color: #fff;
+    &:hover {
+      background-color: $yellow;
+      color: #fff;
+    }
+    &:active {
+      background-color: $light-yellow;
+    }
+    &:disabled {
+      color: #333;
     }
   }
 }

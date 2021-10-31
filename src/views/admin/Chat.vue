@@ -1,6 +1,6 @@
 <template>
-  <div class="home">
-    <el-empty description="Home"></el-empty>
+  <div class="chat">
+    This is Chat.
   </div>
 </template>
 

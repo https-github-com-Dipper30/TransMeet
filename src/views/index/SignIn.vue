@@ -54,14 +54,19 @@ export default {
       }
       const res = await login(p)
       this.loginLock = false
-      if(!handleResult(res)) return
+      if(!handleResult(res, true, 'Welcome to Admin System!')) return
       const { token, user } = res.data
       this.$store.commit('setToken', token)
       this.$store.commit('setUser', user)
       const { auth } = user
+      localStorage.setItem('token', token)
       if (auth.includes(access.LOG_IN_ADMIN)) {
-        // go to admin
-        this.$router.push('/admin')
+        // go to admin, open in new page
+        let routeData = this.$router.resolve({
+          path: '/admin',
+        })
+        window.open(routeData.href, '_blank')
+        // this.$router.push('/admin')
       } else if (auth.includes(access.LOG_IN_MAIN)){
         // go to home
         this.$router.push('/home')

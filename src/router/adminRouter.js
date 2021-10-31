@@ -1,14 +1,27 @@
-import store from '../store'
-import { access } from '../config/auth'
-
 export const adminRouter = {
   path: '/admin',
-  component: import('../views/admin/Home.vue'),
-  children: [],
-  beforeEnter: (to, from, next) => {
-    // check if user is admin
-    const user = store.state.user
-    if (!user?.auth || !user.auth.includes(access.LOG_IN_ADMIN)) next({ path: '/no-auth' })
-    else next()
+  name: 'Admin',
+  component: () => import('../views/admin/Index.vue'),
+  children: [
+    {
+      path: '',
+      component: () => import('../views/admin/Home.vue'),
+    },
+    {
+      path: 'staff',
+      component: () => import('../views/admin/Staff.vue'),
+    },
+    {
+      path: 'product',
+      component: () => import('../views/admin/Product.vue'),
+    },
+    {
+      path: 'chat',
+      component: () => import('../views/admin/Chat.vue'),
+    },
+  ],
+  meta: {
+    needAdminAuth: true,
   },
+
 }

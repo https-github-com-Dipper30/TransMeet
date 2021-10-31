@@ -1,6 +1,6 @@
 <template>
-  <div class="home">
-    <el-empty description="Home"></el-empty>
+  <div class="product">
+    This is Product.
   </div>
 </template>
 

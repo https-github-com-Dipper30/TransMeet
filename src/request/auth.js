@@ -21,3 +21,11 @@ export const register = params => {
   return http.post('/register', params)
 }
 
+/**
+ * login using token stored locally
+ * @returns user info
+ */
+export const loginByToken = () => {
+  return http.post('/token')
+}
+
