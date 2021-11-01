@@ -12,9 +12,10 @@ export default {
 
 <style lang="scss" scoped>
 .panel {
-  width: 300px;
-  height: 200px;
+  width: fit-content;
+  height: fit-content;
   border-radius: 5px;
+  box-sizing: border-box;
   background-color: #fff;
 }
 </style>

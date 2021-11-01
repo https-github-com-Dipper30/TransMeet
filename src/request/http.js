@@ -62,12 +62,20 @@ http.interceptors.response.use(
  * get request
  */
 export const get = (url, params) => {
-  return http.get(url, { params })
+  if (!params) return http.get(url)
+  let count = 1
+  for (let attr in params) {
+    url += count == 1 ? '?' : '&' 
+    url += (attr + '=' + params[attr])
+    count++
+  }
+  return http.get(url)
 }
 
 /**
  * post request
  */
 export const post = (url, params) => {
+  console.log(params)
   return http.post(url, qs.stringify(params))
 }

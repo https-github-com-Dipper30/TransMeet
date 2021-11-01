@@ -75,3 +75,12 @@ export const stringIsNumeric = (s) => {
 export const getUnixTimeStamp = (date) => {
   return Math.floor(new Date(date).getTime() / 1000)
 }
+
+ // get height and width of viewport
+export const getWindowHeight = () => { 
+  return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+} 
+
+export const getWindowWidth = () => { 
+  return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
+}
