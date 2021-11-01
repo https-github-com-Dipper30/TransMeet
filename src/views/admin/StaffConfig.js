@@ -8,7 +8,7 @@ export default {
     {
       type: 'selector',
       label: 'region',
-      value: 'region',
+      value: 'region_assigned',
       options: [
         {
           value: 1,
@@ -27,7 +27,7 @@ export default {
     {
       type: 'date',
       label: 'store',
-      value: 'store',
+      value: 'store_assigned',
     },
     {
       type: 'inputNumber',
@@ -37,7 +37,7 @@ export default {
     {
       type: 'input',
       label: 'job title',
-      value: 'jobTitle',
+      value: 'job_title',
     },
   ],
   table: {

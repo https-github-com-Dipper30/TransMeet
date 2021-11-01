@@ -36,6 +36,7 @@
         </div>
 
       </div>
+      <t-button type="search" class="search-box-btn" @onClick="reset">Reset</t-button>
       <t-button type="search" class="search-box-btn" @onClick="fetchData">Search</t-button>
     </panel>
     <!-- search box ends -->
@@ -155,6 +156,13 @@ export default {
       }
       return p
     },
+    reset () {
+      this.searchBox = {
+        page: 1,
+        size: 20,
+      }
+      this.$emit('fetchData')
+    },
     fetchData () {
       const p = this.formParameter()
       if (p != {}) this.$emit('fetchData', p)
@@ -244,7 +252,8 @@ export default {
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      height: 100px;
+      height: 50px;
+      margin-right: 30px;
     }
   }
   .empty {
