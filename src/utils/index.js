@@ -36,15 +36,19 @@ export const isError = p => {
 }
 
 export const debounce = (fn, interval, context) => {
-  let lastTimeStamp = 0
+  let timer = null
   return function () {
-    const currentTime = new Date().getTime()
-    if (currentTime - lastTimeStamp > interval) {
+    if (timer) {
+      clearTimeout(timer)
+      timer = null
+    }
+    timer = setTimeout(() => {
       const that = context
       const args = arguments
       fn.apply(that, args)
-    }
-    lastTimeStamp = currentTime
+      clearTimeout(timer)
+      timer = null
+    }, interval)
   }
 }
 

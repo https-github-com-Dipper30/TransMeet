@@ -76,6 +76,5 @@ export const get = (url, params) => {
  * post request
  */
 export const post = (url, params) => {
-  console.log(params)
-  return http.post(url, qs.stringify(params))
+  return http.post(url, params)
 }

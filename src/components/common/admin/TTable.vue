@@ -98,7 +98,7 @@
 <script>
 import Panel from '../Panel.vue'
 import TButton from '../TButton.vue'
-import { getWindowHeight } from '../../../utils'
+import { getWindowHeight, debounce } from '../../../utils'
 import api from '../../../request'
 
 export default {
@@ -235,13 +235,18 @@ export default {
     //     if (s.type == 'selector' && s.dynamic) this[s.options] = []
     //   }
     // },
+    resizeTable () {
+      const tablePanel = document.getElementsByClassName('table-panel')
+      const tp = tablePanel[0]
+      const offSetTop = tp.getBoundingClientRect().top
+      const windowHeight = getWindowHeight()
+      tp.style.height = `${windowHeight - offSetTop - 20}px`
+    },
   },
   mounted () {
-    const tablePanel = document.getElementsByClassName('table-panel')
-    const tp = tablePanel[0]
-    const offSetTop = tp.getBoundingClientRect().top
-    const windowHeight = getWindowHeight()
-    tp.style.height = `${windowHeight - offSetTop - 20}px`
+    this.resizeTable()
+    window.addEventListener('resize', debounce(this.resizeTable, 500))
+    // this.resizeTable()
   },
 }
 </script>

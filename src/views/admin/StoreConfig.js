@@ -24,32 +24,41 @@ export default {
       {
         label: 'ID',
         prop: 'id',
-        width: 150,
+        width: 100,
       },
       {
-        label: 'Manager ID',
-        prop: 'manager_id',
-        width: 200,
+        label: 'Manager',
+        prop: 'Staff.name',
       },
       {
         label: 'Name',
         prop: 'name',
-        width: 200,
+      },
+      {
+        label: 'Region',
+        prop: 'Region.name',
+      },
+      {
+        label: 'State',
+        prop: 'State.name',
+      },
+      {
+        label: 'City',
+        prop: 'city',
       },
       {
         label: 'Street',
         prop: 'street',
-        width: 200,
       },
       {
-        label: 'State ID',
-        prop: 'state_id',
+        label: 'Zip Code',
+        prop: 'zip_code',
       },
-      // {
-      //   label: 'Options',
-      //   slot: 'options',
-      //   fixed: 'right',
-      // },
+      {
+        label: 'Options',
+        slot: 'options',
+        fixed: 'right',
+      },
     ],
   },
 }
