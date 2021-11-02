@@ -22,3 +22,10 @@ export const jobTitle = {
   STORE_MANAGER: 2,
   REGION_MANAGER: 3,
 }
+
+export const jobToString = {
+  null: 'No Job',
+  [jobTitle.SALESPERSON]: 'Sales Person',
+  [jobTitle.STORE_MANAGER]: 'Store Manager',
+  [jobTitle.REGION_MANAGER]: 'Region Manager',
+}

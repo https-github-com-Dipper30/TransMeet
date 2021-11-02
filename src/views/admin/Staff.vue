@@ -1,6 +1,24 @@
 <template>
   <div class="staff">
-    <TAdminTable :config="config" :tableData="tableData" :total="total" @fetchData="fetchData" />
+    <t-admin-table ref="staffTable"
+      :config="config"
+      :tableData="tableData"
+      :total="total"
+      @fetchData="fetchData"
+    >
+      <template v-slot:options="{ scope }">
+        <el-button type="warning" :data-row="scope" circle>
+          <el-icon>
+            <star />
+          </el-icon>
+        </el-button>
+        <el-button type="danger" circle>
+          <el-icon>
+            <delete />
+          </el-icon>
+        </el-button>
+      </template>
+    </t-admin-table>
   </div>
 </template>
 
@@ -9,10 +27,15 @@ import TAdminTable from '../../components/common/admin/TTable.vue'
 import staffConfig from './StaffConfig.js'
 import api from '../../request'
 import { handleResult } from '../../utils'
+import { Search, Edit, Check, Message, Star, Delete } from '@element-plus/icons'
 
 export default {
   components: {
     TAdminTable,
+    // eslint-disable-next-line vue/no-unused-components
+    Star,
+    // eslint-disable-next-line vue/no-unused-components
+    Delete,
   },
   data () {
     return {
@@ -23,10 +46,8 @@ export default {
   },
   methods: {
     async fetchData (p) {
-      console.log('p', p)
       const { getStaff } = api
-      const res = await getStaff(p)
-      if (!handleResult(res, false)) return
+      const res = await getStaff(p, true)
       const { count, rows } = res.data
       this.tableData = rows
       this.total = count

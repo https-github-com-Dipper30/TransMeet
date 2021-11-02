@@ -24,7 +24,17 @@
         </div>
 
         <div class="box" v-if="item.type=='selector'">
-          <el-select v-model="searchBox[item.value]" :placeholder="item.label">
+          <!-- dynamic -->
+          <el-select v-if="item.dynamic" v-model="searchBox[item.value]" :placeholder="item.label" @click="initOptions(`${item.dynamic}`, `${item.options}`)">
+            <el-option
+              v-for="op in computeOptionName(item.options)"
+              :key="op.value"
+              :label="op.label"
+              :value="op.value"
+            >
+            </el-option>
+          </el-select>
+          <el-select v-else v-model="searchBox[item.value]" :placeholder="item.label">
             <el-option
               v-for="op in item.options"
               :key="op.value"
@@ -45,26 +55,33 @@
     <panel class="table-panel">
       <div class="table" v-if="tableData && tableData.length > 0">
         <el-table :data="tableData" style="width: 100%" border>
-          <el-table-column v-if="indexed" type="index" :index="indexMethod" />
+          <el-table-column v-if="indexed" type="index" fixed :index="indexMethod" />
           <el-table-column
             v-for="item of config.table.attributes"
             :key="item.label"
-            :fixed="Boolean(item.fixed)"
+            :fixed="item.fixed"
             :prop="item.prop || item.label"
             :label="item.label"
             :width="item.width || 200"
-          />
+          >
+            <template v-if="item.slot" #default="scope">
+              <slot :name="item.slot" :scope="scope"></slot>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
       <div class="pager" v-if="tableData && tableData.length > 0">
+        <span>Total: {{ total }}</span>
         <el-pagination
           background
-          layout="prev, pager, next"
+          layout="prev, pager, next, sizes"
           :default-current-page="1"
-          :pageSize="searchBox.size"
+          :page-sizes="[10, 20, 50]"
+          v-model:pageSize="searchBox.size"
           :default-page-size="20"
           v-model:currentPage="searchBox.page"
-          @currentChange="pagerChange"
+          @sizeChange="handleSizeChange"
+          @currentChange="handlePageChange"
           :total="total"
         />
       </div>
@@ -82,6 +99,7 @@
 import Panel from '../Panel.vue'
 import TButton from '../TButton.vue'
 import { getWindowHeight } from '../../../utils'
+import api from '../../../request'
 
 export default {
   props: {
@@ -108,6 +126,9 @@ export default {
         size: 20,
       },
       size: 20,
+      options1: [],
+      options2: [],
+      options3: [],
     }
   },
   computed: {
@@ -120,6 +141,9 @@ export default {
     indexed () {
       return this.config?.table?.indexed || false
     },
+    tableOption () {
+      return this.config?.table
+    }
     // pageCount () {
     //   return Math.ceil(this.total / this.size)
     // },
@@ -174,20 +198,50 @@ export default {
     indexMethod (index) {
       return index
     },
-    pagerChange (currentPage) {
+    handlePageChange (currentPage) {
       const p = this.formParameter()
       this.$emit('fetchData', { ...p })
     },
+    handleSizeChange (currentSize) {
+      const p = this.formParameter()
+      // console.log('size', currentSize, this.)
+      this.$emit('fetchData', { ...p })
+    },
+    /**
+     * emit searching method for dynamic options
+     * @param {string} methodName search event
+     * @param {string} dynamicOptions the prop name for the options
+     */
+    async initOptions (methodName, dynamicOptions) {
+      if (this[dynamicOptions]?.length > 0) return
+      const method = api[methodName]
+      if (typeof method != 'function') return false
+      
+      const options = await method.call(this)
+      this[dynamicOptions] = options || []
+      // await this.$emit('getOptions', [methodName, dynamicOptions])
+      // this.setValue('regionOptions', [{value: 1, label:'?'}])
+    },
+    computeOptionName (optionName) {
+      return this[optionName]
+    },
+    setValue (propName, value) {
+      this[propName] = value
+    },
+    // initOptionName () {
+    //   const { searchBox } = this.config
+    //   if (!searchBox) return
+    //   for (let s of searchBox) {
+    //     if (s.type == 'selector' && s.dynamic) this[s.options] = []
+    //   }
+    // },
   },
   mounted () {
-    console.log(this.tableData)
     const tablePanel = document.getElementsByClassName('table-panel')
     const tp = tablePanel[0]
     const offSetTop = tp.getBoundingClientRect().top
     const windowHeight = getWindowHeight()
-    console.log(offSetTop, windowHeight)
     tp.style.height = `${windowHeight - offSetTop - 20}px`
-
   },
 }
 </script>

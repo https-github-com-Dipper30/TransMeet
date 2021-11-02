@@ -24,29 +24,6 @@ export default {
       label: 'Salary <=',
       value: 'salary',
     },
-    {
-      type: 'selector',
-      label: 'Job Title',
-      value: 'job_title',
-      options: [
-        {
-          value: null,
-          label: 'All',
-        },
-        {
-          value: jobTitle.SALESPERSON,
-          label: 'Sales Person',
-        },
-        {
-          value: jobTitle.STORE_MANAGER,
-          label: 'Store Manager',
-        },
-        {
-          value: jobTitle.REGION_MANAGER,
-          label: 'Region Manager',
-        },
-      ],
-    },
   ],
   table: {
     indexed: true,

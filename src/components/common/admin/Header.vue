@@ -25,8 +25,6 @@ export default {
     },
   },
   mounted () {
-    const { name } = this.$store.getters.getUser
-    this.name = name
   },
 }
 </script>
