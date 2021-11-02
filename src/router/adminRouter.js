@@ -12,6 +12,10 @@ export const adminRouter = {
       component: () => import('../views/admin/Staff.vue'),
     },
     {
+      path: 'store',
+      component: () => import('../views/admin/Store.vue'),
+    },
+    {
       path: 'product',
       component: () => import('../views/admin/Product.vue'),
     },

@@ -143,7 +143,7 @@ export default {
     },
     tableOption () {
       return this.config?.table
-    }
+    },
     // pageCount () {
     //   return Math.ceil(this.total / this.size)
     // },

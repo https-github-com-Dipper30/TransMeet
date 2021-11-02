@@ -11,7 +11,7 @@ export default {
       type: 'selector',
       label: 'region',
       value: 'region_assigned',
-      dynamic: 'getRegionsOptions', // request method name
+      dynamic: 'getRegionsOptions', // request method name and convert into options
       options: 'options1',
     },
     {

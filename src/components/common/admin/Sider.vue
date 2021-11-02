@@ -27,6 +27,10 @@
         <div class="text" v-else>Staff</div>
       </div>
       <div class="sub-row" data-item=2.2 :class="{'selected': selected == 2.2}" @click="onClick">
+        <div class="short" v-if="collapse">Store</div>
+        <div class="text" v-else>Store</div>
+      </div>
+      <div class="sub-row" data-item=2.3 :class="{'selected': selected == 2.3}" @click="onClick">
         <div class="short" v-if="collapse">Product</div>
         <div class="text" v-else>Product</div>
       </div>
@@ -73,7 +77,8 @@ export default {
     const menuRoute = {
       1: '/admin',
       2.1: '/admin/staff',
-      2.2: '/admin/product',
+      2.2: '/admin/store',
+      2.3: '/admin/product',
       3: '/admin/chat',
     }
     return {
@@ -174,7 +179,7 @@ export default {
     overflow: hidden;
     transition: 0.3s;
     &.unfold {
-      height: 150px;
+      height: 200px;
     }
     .el-icon {
       transition: 0.3s;

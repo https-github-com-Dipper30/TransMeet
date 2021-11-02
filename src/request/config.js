@@ -37,6 +37,7 @@ export const getRegions = () => {
   return get('/regions')
 }
 
+// get region options
 export const getRegionsOptions = async () => {
   const res = await get('/regions')
   if (!handleResult(res, false)) return
@@ -55,11 +56,11 @@ export const getRegionsOptions = async () => {
  * @returns 
  */
  export const getStores = async (p, format = false) => {
-  const res = await get('/stores', p)
+  const res = await get('/store', p)
   if (!handleResult(res, false)) return
-  const { data } = res
-  let { rows } = data
+  // const { data } = res
+  // let { rows } = data
   // if (format && rows) rows = rows.map(r => ({ ...r, job2String: jobToString[r.job_title] }))
-  res.data.rows = rows
+  // res.data.rows = rows
   return res
 }
