@@ -128,8 +128,7 @@ export default {
         // after updating, refetch data
         this.fetchData()
       }
-
-    }
+    },
   },
   created () {
     this.config = storeConfig

@@ -2,13 +2,32 @@ export default {
   searchBox: [
     {
       type: 'inputNumber',
-      label: 'Store ID',
-      value: 'id',
+      label: 'Product ID',
+      value: 'pid',
     },
     {
       type: 'inputNumber',
-      label: 'Manager ID',
-      value: 'manager_id',
+      label: 'Store ID',
+      value: 'sid',
+    },
+    {
+      type: 'input',
+      label: 'Product Name',
+      value: 'name',
+    },
+    {
+      type: 'selector',
+      label: 'Category',
+      value: 'cate',
+      dynamic: 'getCateOptions',
+      options: 'options1',
+    },
+    {
+      type: 'selector',
+      label: 'Type',
+      value: 'type',
+      dynamic: 'getTypeOptions',
+      options: 'options2',
     },
     {
       type: 'selector',
@@ -19,10 +38,44 @@ export default {
     },
     {
       type: 'selector',
-      label: 'State',
-      value: 'state_id',
-      dynamic: 'getStatesOptions',
-      options: 'options2',
+      label: 'Listed',
+      options: [
+        {
+          label: 'Both',
+          value: null,
+        },
+        {
+          label: 'Listed',
+          value: true,
+        },
+        {
+          label: 'Unlisted',
+          value: false,
+        },
+      ],
+    },
+    {
+      type: 'selector',
+      label: 'Available',
+      options: [
+        {
+          label: 'Both',
+          value: null,
+        },
+        {
+          label: 'Available',
+          value: true,
+        },
+        {
+          label: 'Unavailable',
+          value: false,
+        },
+      ],
+    },
+    {
+      type: 'inputNumber',
+      label: 'Price <= ',
+      value: 'price',
     },
   ],
   operation: {
@@ -43,32 +96,35 @@ export default {
         width: 100,
       },
       {
-        label: 'Manager',
-        prop: 'Staff.name',
-      },
-      {
-        label: 'Name',
+        label: 'Product Name',
         prop: 'name',
       },
       {
-        label: 'Region',
-        prop: 'Region.name',
+        label: 'Amount',
+        prop: 'amount',
+        width: 150,
       },
       {
-        label: 'State',
-        prop: 'State.name',
+        label: 'Unit Price',
+        prop: 'unitPrice',
       },
       {
-        label: 'City',
-        prop: 'city',
+        label: 'Category',
+        prop: 'Category.name',
+        width: 150,
       },
       {
-        label: 'Street',
-        prop: 'street',
+        label: 'Type',
+        prop: 'Type.name',
+        width: 150,
       },
       {
-        label: 'Zip Code',
-        prop: 'zip_code',
+        label: 'Create Time',
+        prop: 'createTS',
+      },
+      {
+        label: 'List Time',
+        prop: 'listTS',
       },
       {
         label: 'Options',

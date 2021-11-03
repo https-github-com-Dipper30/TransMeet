@@ -107,3 +107,17 @@ export const uploadProductImage = (files, param) => {
 export const addProduct = (p) => {
   return post('/addProduct', p)
 }
+
+export const getProducts = async (p, format = true) => {
+  const res = await get('/products', p)
+  if (!handleResult(res, false)) return
+  const { data } = res
+  let { rows } = data
+  if (format && rows) rows = rows.map(r => ({ ...r, unitPrice: `${r.price} $ / ${r.unit}` }))
+  res.data.rows = rows
+  return res
+}
+
+export const getProductImg = async (p) => {
+  return get('/productImage', p)
+}

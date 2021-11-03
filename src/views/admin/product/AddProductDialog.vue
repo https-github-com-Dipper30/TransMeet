@@ -104,10 +104,22 @@ export default {
   },
   methods: {
     setVisible () {
+      this.resetForm()
       this.$refs['dialog'].setVisible()
     },
     setHidden () {
+      this.resetForm()
       this.$refs['dialog'].setHidden()
+    },
+    resetForm () {
+      this.form = {
+        name: '',
+        cate: 1,
+        type: null,
+        price: 10,
+        unit: '',
+        amount: 10,
+      }
     },
     async onConfirm (e) {
       console.log('e', this.form, this.imgList)

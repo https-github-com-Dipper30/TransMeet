@@ -1,8 +1,11 @@
 <template>
   <div class="t-table">
     <!-- search box -->
-    <panel class="search-panel" v-if="config.searchBox">
+    <panel class="search-panel" v-if="config.searchBox" :class="{ 'hide': hideSearchBox }">
       <div class="search-box" v-for="item in config.searchBox" :key="item.label">
+        <el-icon class="minus" @click="onHideSearchBox">
+          <minus />
+        </el-icon>
         <div class="label">{{ item.label }}: </div>
 
         <div class="box" v-if="item.type=='input'">
@@ -47,7 +50,7 @@
 
       </div>
       <t-button type="search" class="search-box-btn" @onClick="reset">Reset</t-button>
-      <t-button type="search" class="search-box-btn" @onClick="fetchData">Search</t-button>
+      <t-button type="search" class="search-box-btn" @onClick="onSearch">Search</t-button>
     </panel>
     <!-- search box ends -->
 
@@ -110,6 +113,7 @@ import Panel from '../Panel.vue'
 import TButton from '../TButton.vue'
 import { getWindowHeight, debounce } from '../../../utils'
 import api from '../../../request'
+import { Minus } from '@element-plus/icons'
 
 export default {
   props: {
@@ -128,9 +132,11 @@ export default {
   components: {
     Panel,
     TButton,
+    Minus,
   },
   data () {
     return {
+      hideSearchBox: false,
       searchBox: {
         page: 1,
         size: 20,
@@ -202,11 +208,15 @@ export default {
       if (p != {}) this.$emit('fetchData', p)
       else this.$emit('fetchData')
     },
+    onSearch () {
+      this.searchBox.page = 1
+      this.fetchData()
+    },
     onClickOptions (index, rows, act) {
       this.$emit(`${act}`, index, rows)
     },
     indexMethod (index) {
-      return index
+      return index + 1
     },
     handlePageChange (currentPage) {
       const p = this.formParameter()
@@ -255,6 +265,10 @@ export default {
       const windowHeight = getWindowHeight()
       tp.style.height = `${windowHeight - offSetTop - 20}px`
     },
+    onHideSearchBox () {
+      this.hideSearchBox = !this.hideSearchBox
+      setTimeout(this.resizeTable, 800)
+    },
   },
   mounted () {
     this.resizeTable()
@@ -276,7 +290,23 @@ export default {
     flex-wrap: wrap;
     padding: 10px;
     width: 100%;
+    position: relative;
     margin-bottom: 10px;
+    transition: 0.3s;
+    height: 100%;
+    &.hide {
+      height: 50px;
+      width: 50px;
+      overflow: hidden;
+    }
+    .minus {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      cursor: pointer;
+    }
     .search-box-btn {
       margin-left: 60px;
       width: 70px;
