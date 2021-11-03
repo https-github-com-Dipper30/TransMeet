@@ -80,8 +80,6 @@ export default {
   data () {
     return {
       dialogVisible: false,
-      imageUrl: '',
-      previewSrc: '',
       imgList: [],
       cateOptions: [],
       typeOptions: [],
@@ -113,12 +111,8 @@ export default {
     onConfirm (e) {
       console.log('e', this.form, this.imgList)
     },
-    myRequest (e) {
-      console.log(e)
-    },
     setImgSrc (srcList) {
       this.imgList = srcList
-      console.log('src', srcList, srcList[0])
     },
     async getCateOptions () {
       const { getCateOptions } = api
