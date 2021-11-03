@@ -1,6 +1,6 @@
 <template>
   <div class="t-image-uploader">
-    <div v-for="(img, index) of imgList" :key="index" class="preview">
+    <div v-for="(img, index) of dataUrlList" :key="index" class="preview">
       <img v-if="index < maxImages" :src="img" alt="preview" />
     </div>
     <div class="add" @click="onClickInput">  
@@ -31,27 +31,34 @@ export default {
   },
   data () {
     return {
+      dataUrlList: [],
       imgList: [],
-      imgSrc: '',
+      currentImgNumber: 0,
     }
   },
   methods: {
-    async onImgChange (e) {
+    onImgChange (e) {
       const files = e.target.files
       const that = this
-      const res = []
+      this.dataUrlList = []
       this.imgList = []
+      this.currentImgNumber = 0
       for (let i = 0; i < files.length && i < this.maxImages; i++) {
+        if (this.currentImgNumber >= this.maxImages) {
+          this.$message(`Only ${this.maxImages} images can be added.`)
+          break
+        }
         const file = files[i]
+        this.imgList.push(file)
         const reader = new FileReader()
         reader.onload = function (e) {
           const dataUrl = e.target.result
-          res.push(dataUrl)
-          that.imgList.push(dataUrl)
+          that.dataUrlList.push(dataUrl)
         }
-        await reader.readAsDataURL(file)
+        reader.readAsDataURL(file)
+        this.currentImgNumber = this.currentImgNumber + 1
       }
-      this.$emit('submitImgSrc', this.imgList)
+      this.$emit('submitImgList', this.imgList)
     },
     onClickInput (e) {
       const i = this.$refs['imgInput']

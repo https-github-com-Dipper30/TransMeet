@@ -55,7 +55,7 @@
       <div class="row">
         <div class="label">Images</div>
         <div class="input">
-          <t-image-uploader :multipleImages="true" @submitImgSrc="setImgSrc" />
+          <t-image-uploader :multipleImages="true" @submitImgList="setImgList" />
         </div>
       </div>
     </div>
@@ -67,6 +67,7 @@ import TDialog from '../../../components/common/TDialog.vue'
 import TImageUploader from '../../../components/common/TImageUploader.vue'
 import { Plus } from '@element-plus/icons'
 import api from '../../../request'
+import { handleResult, getTimeStamp } from '../../../utils'
 
 export default {
   components: {
@@ -108,11 +109,25 @@ export default {
     setHidden () {
       this.$refs['dialog'].setHidden()
     },
-    onConfirm (e) {
+    async onConfirm (e) {
       console.log('e', this.form, this.imgList)
+      const files = this.imgList
+      const { uploadProductImage, addProduct } = api
+      const added = await addProduct(this.form)
+      if (!handleResult(added, false)) return
+      const { id } = added.data
+      const ts = getTimeStamp()
+      for (let img of this.imgList) {
+        img.name = `${id}/${ts}_${img.name}`
+        console.log('imgname: ', img.name)
+      }
+      const upload = await uploadProductImage(files)
+      if (!handleResult(upload)) return
+      this.setHidden()
+      console.log('res', res)
     },
-    setImgSrc (srcList) {
-      this.imgList = srcList
+    setImgList (imgList) {
+      this.imgList = imgList
     },
     async getCateOptions () {
       const { getCateOptions } = api

@@ -80,6 +80,10 @@ export const getUnixTimeStamp = (date) => {
   return Math.floor(new Date(date).getTime() / 1000)
 }
 
+export const getTimeStamp = (date) => {
+  return new Date(date).getTime()
+}
+
  // get height and width of viewport
 export const getWindowHeight = () => { 
   return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight

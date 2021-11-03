@@ -1,4 +1,4 @@
-import { http, get, post } from './http'
+import { http, get, post, uploadFiles } from './http'
 import { handleResult } from '../utils'
 import { jobToString } from '../config/common'
 
@@ -95,4 +95,15 @@ export const getTypeOptions = async (p) => {
   const { data } = res
   const options = data.map(({ name, code }) => ({ value: code, label: name }))
   return options
+}
+
+/**
+ * upload product image
+ */
+export const uploadProductImage = (files) => {
+  return uploadFiles('/upload', files)
+}
+
+export const addProduct = (p) => {
+  return post('/addProduct', p)
 }
