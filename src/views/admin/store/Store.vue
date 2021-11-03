@@ -1,5 +1,7 @@
 <template>
   <div class="store">
+    <t-bread-crumb :config="breadConfig"></t-bread-crumb>
+
     <TAdminTable :config="config" :tableData="tableData" :total="total" @fetchData="fetchData">
       <template v-slot:options="{ scope }">
         <el-tooltip
@@ -55,26 +57,33 @@
 </template>
 
 <script>
-import TAdminTable from '../../components/common/admin/TTable.vue'
+import TAdminTable from '../../../components/common/admin/TTable.vue'
 import storeConfig from './StoreConfig.js'
-import api from '../../request'
+import api from '../../../request'
 import { User, Delete } from '@element-plus/icons'
 import { ElMessage } from 'element-plus'
-import { handleResult } from '../../utils'
+import { handleResult } from '../../../utils'
+import TBreadCrumb from '../../../components/common/admin/TBreadCrumb.vue'
 
 export default {
   components: {
     TAdminTable,
+    TBreadCrumb,
     User,
     Delete,
   },
   data () {
+    const breadConfig = [
+      { name: 'Home', to: '/admin' },
+      { name: 'Store', to: '/admin/store' },
+    ]
     return {
       config: {},
       tableData: [],
       total: 0,
       setManagerDialogVisible: false,
       staff: [],
+      breadConfig,
     }
   },
   methods: {
@@ -122,10 +131,8 @@ export default {
 
     }
   },
-  async created () {
+  created () {
     this.config = storeConfig
-    await this.fetchData()
-    
   },
 }
 </script>

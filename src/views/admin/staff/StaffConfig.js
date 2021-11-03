@@ -1,15 +1,15 @@
-import { jobTitle } from '../../config/common'
+import { jobTitle } from '../../../config/common'
 
 export default {
   searchBox: [
     {
       type: 'inputNumber',
-      label: 'id',
+      label: 'Staff ID',
       value: 'id',
     },
     {
       type: 'selector',
-      label: 'region',
+      label: 'Region',
       value: 'region_assigned',
       dynamic: 'getRegionsOptions', // request method name and convert into options
       options: 'options1',
@@ -48,6 +48,9 @@ export default {
       ],
     },
   ],
+  operation: {
+    title: 'Staff Table',
+  },
   table: {
     indexed: true,
     attributes: [

@@ -1,5 +1,6 @@
 <template>
   <div class="staff">
+    <t-bread-crumb :config="breadConfig"></t-bread-crumb>
     <t-admin-table ref="staffTable"
       :config="config"
       :tableData="tableData"
@@ -23,11 +24,12 @@
 </template>
 
 <script>
-import TAdminTable from '../../components/common/admin/TTable.vue'
+import TAdminTable from '../../../components/common/admin/TTable.vue'
 import staffConfig from './StaffConfig.js'
-import api from '../../request'
-import { handleResult } from '../../utils'
+import api from '../../../request'
+
 import { Search, Edit, Check, Message, Star, Delete } from '@element-plus/icons'
+import TBreadCrumb from '../../../components/common/admin/TBreadCrumb.vue'
 
 export default {
   components: {
@@ -36,12 +38,18 @@ export default {
     Star,
     // eslint-disable-next-line vue/no-unused-components
     Delete,
+    TBreadCrumb,
   },
   data () {
+    const breadConfig = [
+      { name: 'Home', to: '/admin' },
+      { name: 'Staff' },
+    ]
     return {
       config: {},
       tableData: [],
       total: 0,
+      breadConfig,
     }
   },
   methods: {
@@ -53,9 +61,8 @@ export default {
       this.total = count
     },
   },
-  async created () {
+  created () {
     this.config = staffConfig
-    await this.fetchData()
   },
 }
 </script>

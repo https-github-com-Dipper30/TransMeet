@@ -7,7 +7,7 @@ module.exports = {
    * process.env.NODE_ENV==='development' (开发环境)
    * baseUrl: process.env.NODE_ENV==='production'?"https://cdn.didabisai.com/front/":'front/',
    */
-  publicPath: process.env.NODE_ENV==='production'? './' : "/", // 构建好的文件输出到哪里
+  publicPath: process.env.NODE_ENV==='production'? '/' : "/", // 构建好的文件输出到哪里
   outputDir: "dist", // where to put static assets (js/css/img/font/...) // 是否在保存时使用‘eslint-loader’进行检查 // 有效值: true | false | 'error' // 当设置为‘error’时，检查出的错误会触发编译失败
 //   assetsDir: "./",
   lintOnSave: true, // 使用带有浏览器内编译器的完整构建版本 // https://vuejs.org/v2/guide/installation.html#Runtime-Compiler-vs-Runtime-only

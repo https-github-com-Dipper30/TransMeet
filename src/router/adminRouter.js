@@ -9,19 +9,19 @@ export const adminRouter = {
     },
     {
       path: 'staff',
-      component: () => import('../views/admin/Staff.vue'),
+      component: () => import('../views/admin/staff/Staff.vue'),
     },
     {
       path: 'store',
-      component: () => import('../views/admin/Store.vue'),
+      component: () => import('../views/admin/store/Store.vue'),
     },
     {
       path: 'product',
-      component: () => import('../views/admin/Product.vue'),
+      component: () => import('../views/admin/product/Product.vue'),
     },
     {
       path: 'chat',
-      component: () => import('../views/admin/Chat.vue'),
+      component: () => import('../views/admin/chat/Chat.vue'),
     },
   ],
   meta: {

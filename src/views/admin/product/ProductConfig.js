@@ -2,7 +2,7 @@ export default {
   searchBox: [
     {
       type: 'inputNumber',
-      label: 'id',
+      label: 'Store ID',
       value: 'id',
     },
     {
@@ -12,12 +12,28 @@ export default {
     },
     {
       type: 'selector',
-      label: 'region',
-      value: 'region_assigned',
-      dynamic: 'getRegionsOptions', // request method name
+      label: 'Region',
+      value: 'region_id',
+      dynamic: 'getRegionsOptions',
       options: 'options1',
     },
+    {
+      type: 'selector',
+      label: 'State',
+      value: 'state_id',
+      dynamic: 'getStatesOptions',
+      options: 'options2',
+    },
   ],
+  operation: {
+    title: 'Product Table',
+    buttons: [
+      {
+        label: 'Add Product',
+        eventName: 'onClickAddProduct',
+      },
+    ],
+  },
   table: {
     indexed: true,
     attributes: [

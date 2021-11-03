@@ -51,6 +51,16 @@
     </panel>
     <!-- search box ends -->
 
+    <!-- operation and title -->
+    <panel class="title-panel" v-if="config.operation">
+      <div class="title"> {{ config.operation.title }} </div>
+      <div class="operation">
+        <span />
+        <t-button v-for="button of config.operation.buttons" :key="button.label" @onClick="submitEvent(button.eventName)"> {{ button.label }}</t-button>
+      </div>
+    </panel>
+    <!-- operation and title ends -->
+
     <!-- table -->
     <panel class="table-panel">
       <div class="table" v-if="tableData && tableData.length > 0">
@@ -225,6 +235,9 @@ export default {
     computeOptionName (optionName) {
       return this[optionName]
     },
+    submitEvent (eventName, ...args) {
+      this.$emit(eventName, ...args)
+    },
     setValue (propName, value) {
       this[propName] = value
     },
@@ -245,8 +258,8 @@ export default {
   },
   mounted () {
     this.resizeTable()
+    this.fetchData()
     window.addEventListener('resize', debounce(this.resizeTable, 500))
-    // this.resizeTable()
   },
 }
 </script>
@@ -263,7 +276,7 @@ export default {
     flex-wrap: wrap;
     padding: 10px;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     .search-box-btn {
       margin-left: 60px;
       width: 70px;
@@ -292,6 +305,29 @@ export default {
       
     }
   }
+  .title-panel {
+    height: 40px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    background-color: $admin-bg;
+    .title {
+      text-align: center;
+      height: 30px;
+      line-height: 40px;
+      font-weight: 600;
+      font-size: 20px;
+    }
+    .operations {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+    }
+  }
   .table-panel {
     width: 100%;
     /* padding: 20px; */
@@ -313,6 +349,16 @@ export default {
       justify-content: flex-end;
       height: 50px;
       margin-right: 30px;
+      .el-pagination.is-background .el-pager li:not(.disabled).active {
+        &:hover {
+          color:#fff;
+        }
+        background-color: $admin-highlight;
+        color: #fff;
+      }
+      .el-pagination.is-background .el-pager li:not(.disabled):hover {
+        color: $admin-highlight;
+      }
     }
   }
   .empty {

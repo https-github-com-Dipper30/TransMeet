@@ -25,6 +25,7 @@ export default {
     },
   },
   mounted () {
+    this.name = this.$store.state.user.name
   },
 }
 </script>
