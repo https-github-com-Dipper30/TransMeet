@@ -115,16 +115,11 @@ export default {
       const { uploadProductImage, addProduct } = api
       const added = await addProduct(this.form)
       if (!handleResult(added, false)) return
+
       const { id } = added.data
-      const ts = getTimeStamp()
-      for (let img of this.imgList) {
-        img.name = `${id}/${ts}_${img.name}`
-        console.log('imgname: ', img.name)
-      }
-      const upload = await uploadProductImage(files)
+      const upload = await uploadProductImage(files, [{ prop: 'id', value: id }])
       if (!handleResult(upload)) return
       this.setHidden()
-      console.log('res', res)
     },
     setImgList (imgList) {
       this.imgList = imgList

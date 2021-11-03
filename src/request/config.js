@@ -100,8 +100,8 @@ export const getTypeOptions = async (p) => {
 /**
  * upload product image
  */
-export const uploadProductImage = (files) => {
-  return uploadFiles('/upload', files)
+export const uploadProductImage = (files, param) => {
+  return uploadFiles('/productImage', files, param)
 }
 
 export const addProduct = (p) => {

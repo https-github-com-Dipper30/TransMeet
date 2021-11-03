@@ -82,12 +82,11 @@ export const post = (url, params) => {
 /**
  * file uploader
  */
-export const uploadFiles = (url, files) => {
+export const uploadFiles = (url, files, param) => {
   // const file = e.target.files[0]
   const formData = new FormData()
-  for (let file of files) {
-    formData.append('file', file)
-  }
+  for (let p of param) formData.append(p.prop, p.value)
+  for (let file of files) formData.append('file', file)
   return http.post(url, formData, {
     headers: {
       'Content-Type': 'multipart/form-data;charset=UTF-8',
