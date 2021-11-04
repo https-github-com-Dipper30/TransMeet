@@ -43,11 +43,13 @@ export default {
     },
   },
   methods: {
-    setVisible () {
+    setVisible (clearData = false) {
       this.dialogVisible = true
+      if (clearData) this.submitEvent('clearData')
     },
-    setHidden () {
+    setHidden (clearData = true) {
       this.dialogVisible = false
+      if (clearData) this.submitEvent('clearData')
     },
     submitEvent (eventName, ...args) {
       this.$emit(eventName, ...args)
@@ -60,4 +62,7 @@ export default {
 </script>
 
 <style lang="scss">
+.t-dialog {
+  overflow: scroll;
+}
 </style>

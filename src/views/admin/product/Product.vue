@@ -24,23 +24,40 @@
           </template>
         </el-popconfirm>
         
-        <el-button type="success" @click="onListProduct(scope.row.id)" v-if="!scope.row.listed">
+        <el-button type="success" @click="openListDialog(scope.row.id)" v-if="!scope.row.listed">
           List
         </el-button>
-        <el-button type="info" @click="onUnistProduct(scope.row.id)" v-else>
+        <el-button type="info" @click="onUnlistProduct(scope.row.id)" v-else>
           Unlist
         </el-button>
       </template>
     </t-admin-table>
-    <add-product-dialog ref="dialog"></add-product-dialog>
-    <t-dialog ref="picDialog" title="Images" :showCancel="false" confirmText="OK" @onConfirm="setHidden">
+    <t-dialog ref="picDialog" title="Product Details" width="600px" :showCancel="false"
+      confirmText="OK"
+      @onConfirm="setPicHidden"
+      @clearData="clearPicData">
+      <div v-if="availableStores.length > 0">
+        <span class="store-title"> Avaible In Following Stores: </span>
+        <div class="store">
+          <span class="id"> Store ID </span>
+          <span class="name"> Store Name </span>
+        </div>
+        <div class="store" v-for="store of availableStores" :key="store.name">
+          <span class="id"> {{ store.id }} </span>
+          <span class="name"> {{ store.name }} </span>
+        </div>
+      </div>
       <div class="imgList" v-if="imgList && imgList.length > 0">
         <div class="img" v-for="(img, index) of imgList" :key="index">
           <img :src="`data:image/${img.type};base64,${img.data}`" alt="img" />
         </div>
       </div>
-      <t-empty v-else />
+      <t-empty v-if="availableStores.length == 0 && imgList.length == 0" />
     </t-dialog>
+
+    <add-product-dialog ref="dialog"></add-product-dialog>
+    <!-- list product and select stores -->
+    <list-dialog ref="listDialog" @fetchData="fetchData" />
   </div>
 </template>
 
@@ -54,6 +71,7 @@ import AddProductDialog from './AddProductDialog.vue'
 import TDialog from '../../../components/common/TDialog.vue'
 import TEmpty from '../../../components/common/TEmpty.vue'
 import { handleResult } from '../../../utils'
+import ListDialog from './ListDialog.vue'
 
 export default {
   components: {
@@ -67,6 +85,7 @@ export default {
     Delete,
     Search,
     TBreadCrumb,
+    ListDialog,
   },
   data () {
     const breadConfig = [
@@ -79,6 +98,7 @@ export default {
       total: 0,
       breadConfig,
       imgList: [],
+      availableStores: [], // stores that the product is available in
     }
   },
   methods: {
@@ -95,30 +115,24 @@ export default {
     },
     async onCheckImg (scope) {
       const { getProductImg } = api
-      console.log(scope.row.id)
       const res = await getProductImg({ id: scope.row.id })
       this.imgList = res?.data?.imgList || []
-      this.setVisible()
+      this.availableStores = scope.row.Stores
+      this.setPicVisible()
     },
-    setVisible () {
+    setPicVisible () {
       this.$refs['picDialog'].setVisible()
     },
-    setHidden () {
+    setPicHidden () {
       this.$refs['picDialog'].setHidden()
     },
-    async onListProduct (id) {
-      console.log(id)
-      if (!id) {
-        this.$message({
-          message: 'Cannot find product id.',
-          type: 'warning',
-        })
-        return
-      }
-      const { listProduct } = api
-      const res = await listProduct({ pid: id, sid: [1, 20, 11] })
-      if(!handleResult(res)) return
-      this.fetchData()
+    clearPicData () {
+      this.imgList = []
+      this.availableStores = []
+    },
+    openListDialog (id) {
+      this.$refs['listDialog'].setVisible()
+      this.$refs['listDialog'].productID = id
     },
     async onDeleteProduct (id) {
       if (!id) {
@@ -155,15 +169,35 @@ export default {
 </script>
 
 <style lang="scss">
+.store-title {
+  font-size: 18px;
+  font-weight: 400;
+  color: $text-color;
+}
+.store {
+  width: 300px;
+  display: flex;
+  margin: 10px auto;
+  justify-content: center;
+  .id {
+    width: 100px;
+    display: inline-block;
+  }
+  .name {
+    width: 200px;
+    display: inline-block;
+  }
+}
 .imgList {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  flex-wrap: wrap;
   .img {
     img {
-      width: 200px;
-      height: 200px;
+      width: 180px;
+      height: 180px;
       border-radius: 10px;
       display: block;
     }
