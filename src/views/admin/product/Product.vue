@@ -9,10 +9,26 @@
       @onClickAddProduct="onClickAddProduct"
     >
       <template v-slot:options="{ scope }">
-        <el-button type="success" circle @click="onCheckImg(scope)">
+        <el-button type="primary" circle @click="onCheckImg(scope)">
           <el-icon>
             <search />
           </el-icon>
+        </el-button>
+        <el-popconfirm title="Are you sure to delete this?" @confirm="onDeleteProduct(scope.row.id)">
+          <template #reference>
+            <el-button type="danger" circle>
+              <el-icon>
+                <delete />
+              </el-icon>
+            </el-button>
+          </template>
+        </el-popconfirm>
+        
+        <el-button type="success" @click="onListProduct(scope.row.id)" v-if="!scope.row.listed">
+          List
+        </el-button>
+        <el-button type="info" @click="onUnistProduct(scope.row.id)" v-else>
+          Unlist
         </el-button>
       </template>
     </t-admin-table>
@@ -37,6 +53,7 @@ import TBreadCrumb from '../../../components/common/admin/TBreadCrumb.vue'
 import AddProductDialog from './AddProductDialog.vue'
 import TDialog from '../../../components/common/TDialog.vue'
 import TEmpty from '../../../components/common/TEmpty.vue'
+import { handleResult } from '../../../utils'
 
 export default {
   components: {
@@ -47,7 +64,7 @@ export default {
     // eslint-disable-next-line vue/no-unused-components
     // Star,
     // eslint-disable-next-line vue/no-unused-components
-    // Delete,
+    Delete,
     Search,
     TBreadCrumb,
   },
@@ -70,6 +87,7 @@ export default {
       const res = await getProducts(p)
       const { count, rows } = res.data
       this.tableData = rows
+      console.log(rows)
       this.total = count
     },
     onClickAddProduct () {
@@ -87,6 +105,47 @@ export default {
     },
     setHidden () {
       this.$refs['picDialog'].setHidden()
+    },
+    async onListProduct (id) {
+      console.log(id)
+      if (!id) {
+        this.$message({
+          message: 'Cannot find product id.',
+          type: 'warning',
+        })
+        return
+      }
+      const { listProduct } = api
+      const res = await listProduct({ pid: id, sid: [1, 20, 11] })
+      if(!handleResult(res)) return
+      this.fetchData()
+    },
+    async onDeleteProduct (id) {
+      if (!id) {
+        this.$message({
+          message: 'Cannot find product id.',
+          type: 'warning',
+        })
+        return
+      }
+      const { deleteProduct } = api
+      const res = await deleteProduct({ pid: id })
+      if(!handleResult(res)) return
+      this.fetchData()
+    },
+    async onUnlistProduct (id) {
+      if (!id) {
+        this.$message({
+          message: 'Cannot find product id.',
+          type: 'warning',
+        })
+        return
+      }
+      const { unlistProduct } = api
+      const res = await unlistProduct({ pid: id })
+      if(!handleResult(res)) return
+      this.fetchData()
+
     },
   },
   created () {

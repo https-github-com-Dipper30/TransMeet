@@ -34,11 +34,12 @@ export default {
       label: 'Region',
       value: 'region_id',
       dynamic: 'getRegionsOptions',
-      options: 'options1',
+      options: 'options3',
     },
     {
       type: 'selector',
       label: 'Listed',
+      value: 'listed',
       options: [
         {
           label: 'Both',
@@ -57,6 +58,7 @@ export default {
     {
       type: 'selector',
       label: 'Available',
+      value: 'available',
       options: [
         {
           label: 'Both',

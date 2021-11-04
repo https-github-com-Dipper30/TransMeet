@@ -113,11 +113,33 @@ export const getProducts = async (p, format = true) => {
   if (!handleResult(res, false)) return
   const { data } = res
   let { rows } = data
-  if (format && rows) rows = rows.map(r => ({ ...r, unitPrice: `${r.price} $ / ${r.unit}` }))
+  if (format && rows) rows = rows.map(r => ({ ...r, unitPrice: `${r.price} $ / ${r.unit}`, listed: Boolean(r.listTS != null) }))
   res.data.rows = rows
   return res
 }
 
 export const getProductImg = async (p) => {
   return get('/productImage', p)
+}
+
+/**
+ * list product to certain shops
+ * @param { { pid: number, sid: number[] } } p 
+ * @returns 
+ */
+export const listProduct = async (p) => {
+  return post('/list', p)
+}
+
+/**
+ * unlist product by id
+ * @param { { pid: number } } p 
+ * @returns 
+ */
+export const unlistProduct = async (p) => {
+  return post('/unlist', p)
+}
+
+export const deleteProduct = async (p) => {
+  return post('deleteProduct', p)
 }
