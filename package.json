@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/i18n/**/*.json\"",
+    "start": "vue-cli-service serve"
   },
   "dependencies": {
     "@element-plus/icons": "0.0.11",
@@ -14,7 +15,7 @@
     "element-plus": "^1.1.0-beta.24",
     "element-ui": "^2.15.6",
     "vue": "^3.0.0",
-    "vue-i18n": "^8.26.7",
+    "vue-i18n": "^9.1.0",
     "vue-loader": "^15.9.8",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
@@ -33,6 +34,7 @@
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^7.0.0",
     "sass": "^1.26.5",
-    "sass-loader": "^8.0.2"
+    "sass-loader": "^8.0.2",
+    "vue-cli-plugin-i18n": "~2.3.1"
   }
 }

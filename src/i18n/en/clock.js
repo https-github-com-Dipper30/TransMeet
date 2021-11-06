@@ -7,10 +7,10 @@ export default {
     emptyTxt: 'This is an airplane.',
     emptyExtra: 'Find something.',
     countdownDays: '{days} Days',
-    countdownDetail: '{hours} hours {minutes} minutes {seconds} seconds'
+    countdownDetail: '{hours} hours {minutes} minutes {seconds} seconds',
   },
   futureTitle: 'Coming Days',
   pastTitle: 'Memories',
   displayBoard: 'Display Board',
-  createClock: 'Create New'
+  createClock: 'Create New',
 }

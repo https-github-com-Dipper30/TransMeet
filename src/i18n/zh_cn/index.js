@@ -10,5 +10,5 @@ export default {
   notification,
   home,
   clock,
-  modal
+  modal,
 }

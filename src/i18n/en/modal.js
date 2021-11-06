@@ -9,6 +9,6 @@ export default {
     descPl: 'add some notes here...',
     dateLabel: 'Date',
     confirm: 'Create',
-    cancel: 'Cancel'
-  }
+    cancel: 'Cancel',
+  },
 }

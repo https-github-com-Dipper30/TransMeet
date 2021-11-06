@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    {{ $t("message.hello") }} 
+    {{ $t("home.slogan") }} 
     Welcome Home!
     <div class="bg"></div>
   </div>
@@ -11,6 +11,14 @@ export default {
   name: 'Home',
   components: {
 
+  },
+  data () {
+    return {
+      locales: process.env.VUE_APP_I18N_SUPPORTED_LOCALE,
+    }
+  },
+  mounted () {
+    console.log(this.locales)
   },
 }
 </script>

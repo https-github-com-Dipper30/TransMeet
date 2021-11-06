@@ -9,6 +9,6 @@ export default {
     descPl: '加一点描述吧',
     dateLabel: '日期',
     confirm: '创建',
-    cancel: '取消'
-  }
+    cancel: '取消',
+  },
 }

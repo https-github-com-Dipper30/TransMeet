@@ -5,7 +5,7 @@ export default {
     message: 'Messages',
     feedback: 'Feedback',
     publish: 'Publish',
-    language: 'Language'
+    language: 'Language',
   },
   menu: {
     clock: 'Days Matter',
@@ -13,6 +13,6 @@ export default {
     partners: 'Find Partners',
     notes: 'Note Book',
     friends: 'Friends',
-    feedback: 'Feedbacks'
-  }
+    feedback: 'Feedbacks',
+  },
 }

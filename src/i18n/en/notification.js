@@ -1,5 +1,5 @@
 export default {
   error: {
-    register: 'Error in registration!'
-  }
+    register: 'Error in registration!',
+  },
 }

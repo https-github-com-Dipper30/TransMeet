@@ -2,6 +2,16 @@
   <router-view/>
 </template>
 
+<script>
+export default {
+  mounted () {
+    const locale = localStorage.getItem('locale')
+    console.log('locale', locale)
+    if (locale) this.$i18n.locale = locale
+  },
+}
+</script>
+
 <style lang="scss">
 #app {
   font-family: "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";

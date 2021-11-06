@@ -8,5 +8,5 @@ export default {
   return: '返回登录',
   register: '一键注册',
   language: 'Language',
-  contact: '联系我们：'
+  contact: '联系我们：',
 }

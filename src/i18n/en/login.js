@@ -9,5 +9,5 @@ export default {
   return: 'Return to Log In',
   register: 'Register Now!',
   language: '语言',
-  contact: 'Contact Us: '
+  contact: 'Contact Us: ',
 }
