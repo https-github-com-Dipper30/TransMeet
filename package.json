@@ -14,10 +14,13 @@
     "element-plus": "^1.1.0-beta.24",
     "element-ui": "^2.15.6",
     "vue": "^3.0.0",
+    "vue-i18n": "^8.26.7",
+    "vue-loader": "^15.9.8",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
+    "@kazupon/vue-i18n-loader": "^0.5.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",

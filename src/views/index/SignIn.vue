@@ -54,7 +54,7 @@ export default {
       }
       const res = await login(p)
       this.loginLock = false
-      if(!handleResult(res, true, 'Welcome to Admin System!')) return
+      if(!handleResult(res, true, 'Welcome Back!')) return
       const { token, user } = res.data
       this.$store.commit('setToken', token)
       this.$store.commit('setUser', user)

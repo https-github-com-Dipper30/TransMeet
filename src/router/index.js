@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import { adminRouter } from './adminRouter.js'
+import { clientRouter } from './clientRouter.js'
 import store from '../store'
 import { access } from '../config/auth'
 
@@ -9,9 +10,10 @@ const routes = [
     path: '/',
     name: 'Entry',
     component: () => import('../views/index/Entry.vue'),
-    beforeEnter: (to, from, next) => {
+    beforeEnter: async (to, from, next) => {
       // check if user is logged in
-      if (false) next({ path: '/home' }) 
+      const user = await store.dispatch('actUser')
+      if (user) next({ path: '/home' }) 
       else next()
     },
     children: [
@@ -23,23 +25,15 @@ const routes = [
     ],
   },
   adminRouter,
+  clientRouter,
   {
     path: '/no-auth',
     name: 'NoAuth',
     component: () => import('../views/NoAuth.vue'),
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
-  },
-  {
     path: '/:pathMatch(.*)*',
     name: 'Empty',
-
     component: () => import('../views/Empty.vue'),
   },
 ]
@@ -61,7 +55,16 @@ router.beforeEach(async (to, from, next) => {
     if (!auth || !auth.includes(access.LOG_IN_ADMIN)) next({ path: '/no-auth' })
     else next()
   }
-  else next()
+  if (to.meta?.needLogin) {
+    const user = store.getters.getUser
+    if (!user) {
+      const token = localStorage.getItem('token')
+      if (!token) next({ path: '/' })
+      const user = await store.dispatch('actUser')
+      if (!user) next({ path: '/' })
+    }
+  }
+  next()
 })
 
 export default router
