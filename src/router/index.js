@@ -8,24 +8,30 @@ import { access } from '../config/auth'
 const routes = [
   {
     path: '/',
-    name: 'Entry',
-    component: () => import('../views/index/Entry.vue'),
+    name: 'Home',
+    component: () => import('../views/client/index.vue'),
     beforeEnter: async (to, from, next) => {
       // check if user is logged in
       const user = await store.dispatch('actUser')
-      if (user) next({ path: '/home' }) 
+      // if not logged in, go to entry page
+      if (!user) next({ path: '/index' }) 
       else next()
     },
     children: [
       {
-        path: 'login',
-        name: 'Login',
-        component: () => import('../views/NoAuth.vue'),
+        path: 'home',
+        component: () => import('../views/client/Home.vue'),
       },
+      
     ],
   },
+  {
+    path: '/index',
+    name: 'Index',
+    component: () => import('../views/index/Entry.vue'),
+  },
   adminRouter,
-  clientRouter,
+  // clientRouter,
   {
     path: '/no-auth',
     name: 'NoAuth',
@@ -59,9 +65,9 @@ router.beforeEach(async (to, from, next) => {
     const user = store.getters.getUser
     if (!user) {
       const token = localStorage.getItem('token')
-      if (!token) next({ path: '/' })
+      if (!token) next({ path: '/index' })
       const user = await store.dispatch('actUser')
-      if (!user) next({ path: '/' })
+      if (!user) next({ path: '/index' })
     }
   }
   next()

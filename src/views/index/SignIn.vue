@@ -69,7 +69,7 @@ export default {
         // this.$router.push('/admin')
       } else if (auth.includes(access.LOG_IN_MAIN)){
         // go to home
-        this.$router.push('/home')
+        this.$router.push('/')
       }
     },
     cancelSignIn () {

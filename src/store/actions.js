@@ -30,7 +30,7 @@ export const actions = {
     if (!handleResult(res, true, 'Welcome Back!')) return false
     user = res.data.user
     store.commit('setUser', user)
-    localStorage.setItem('token', res.data.token)
+    // localStorage.setItem('token', res.data.token)
     return user
   },
 }
