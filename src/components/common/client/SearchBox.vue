@@ -26,11 +26,11 @@ export default {
   height: 32px;
   position: relative;
   img {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     position: absolute;
-    left: 8px;
-    top: 6px;
+    left: 10px;
+    top: 7px;
     cursor: pointer;
   }
   .search-input {

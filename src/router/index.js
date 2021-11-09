@@ -19,8 +19,12 @@ const routes = [
     },
     children: [
       {
+        path: '',
+        component: () => import('../views/client/home/Home.vue'),
+      },
+      {
         path: 'home',
-        component: () => import('../views/client/Home.vue'),
+        component: () => import('../views/client/home/Home.vue'),
       },
       
     ],

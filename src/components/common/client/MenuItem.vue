@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-item" @click="onClick">
+  <div class="menu-item" @click="onClick" :class="{'selected': selected}">
     <slot />
   </div>
 </template>
@@ -7,9 +7,9 @@
 <script>
 export default {
   props: {
-    imgSrc: {
-      type: String,
-      default: '',
+    selected: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {
@@ -18,8 +18,6 @@ export default {
     },
   },
   mounted () {
-    const s = document.getElementById('img')
-    console.log('s', s)
   },
 }
 </script>
@@ -34,9 +32,11 @@ export default {
   position: relative;
   cursor: pointer;
   border-bottom: 1px solid #f8f8f8;
+  text-align: left;
+  padding-left: 70px;
   &:hover {
-    background-color: $yellow;
-    color: #fff;
+    background-color: #f8f8f8;
+    color: #333;
   }
   img {
     position: absolute;
@@ -44,6 +44,9 @@ export default {
     height: 22px;
     top: 11px;
     left: 20px;
+  }
+  &.selected {
+    color: $yellow;
   }
 }
 </style>

@@ -89,10 +89,11 @@ export const getCateOptions = async () => {
  * find product types according to category
  * @param {cate_code?: number} p 
  */
-export const getTypeOptions = async (p) => {
+export const getTypeOptions = async (p, format = true) => {
   const res = await get('/types', p)
-  if (!handleResult(res, false)) return
+  if (!handleResult(res, false)) return false
   const { data } = res
+  if (!format) return data
   const options = data.map(({ name, code }) => ({ value: code, label: name }))
   return options
 }
@@ -143,3 +144,4 @@ export const unlistProduct = async (p) => {
 export const deleteProduct = async (p) => {
   return post('deleteProduct', p)
 }
+
