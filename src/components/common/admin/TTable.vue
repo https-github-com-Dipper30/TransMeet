@@ -78,7 +78,10 @@
             :width="item.width || 200"
           >
             <template v-if="item.slot" #default="scope">
-              <slot :name="item.slot" :scope="scope"></slot>
+              <div v-if="item.slot=='options'">
+                <slot :name="item.slot" :scope="scope"></slot>
+              </div>
+              <div v-html="item.slot(scope.row)" v-else />
             </template>
           </el-table-column>
         </el-table>

@@ -67,19 +67,23 @@ export default {
       {
         label: 'Job',
         prop: 'job2String',
+        width: 150,
       },
       {
         label: 'Salary',
-        label: 'salary',
+        prop: 'salary',
         width: 150,
+        slot: (row) => Number(row.salary / 100).toFixed(2),
       },
       {
         label: 'Store',
         prop: 'Store.name',
+        slot: (row) => row.Store?.name || ' —— ',
       },
       {
         label: 'Region',
         prop: 'Region.name',
+        slot: (row) => row.Region?.name || ' —— ',
       },
       {
         label: 'Options',
