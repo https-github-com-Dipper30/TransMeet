@@ -168,7 +168,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .store-title {
   font-size: 18px;
   font-weight: 400;
