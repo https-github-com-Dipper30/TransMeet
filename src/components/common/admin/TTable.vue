@@ -81,8 +81,7 @@
               <div v-if="item.slot=='options'">
                 <slot :name="item.slot" :scope="scope"></slot>
               </div>
-              <div v-html="item.slot(scope.row)" v-else />
-            </template>
+              <div v-html="item.slot(scope.row)" v-else />            </template>
           </el-table-column>
         </el-table>
       </div>
@@ -195,7 +194,7 @@ export default {
     formParameter () {
       const p = {}
       for (let attr in this.searchBox) {
-        if (this.searchBox[attr]) p[attr] = this.searchBox[attr]
+        if (this.searchBox[attr] || this.searchBox[attr] === false) p[attr] = this.searchBox[attr]
       }
       return p
     },
