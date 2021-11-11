@@ -11,8 +11,6 @@
 <script>
 import CategoryMenu from './CategoryMenu.vue'
 import TypeBar from './TypeBar.vue'
-import api from '../../../request'
-import { nextTick } from 'vue-demi'
 
 export default {
   name: 'Home',

@@ -1,5 +1,5 @@
 <template>
-  <t-dialog title="Add Product" width="600px" confirmText="Add" ref="dialog" @onConfirm="onConfirm">
+  <t-dialog title="Update Product" width="600px" confirmText="Update" ref="dialog" @onConfirm="onConfirm">
     <div class="content">
       <div class="row">
         <div class="label">Name</div>
@@ -67,7 +67,7 @@
       <div class="row">
         <div class="label">Images</div>
         <div class="input">
-          <t-image-uploader :multipleImages="true" @submitImgList="setImgList" />
+          <t-image-uploader ref="uploder" :multipleImages="true" @submitImgList="setImgList" />
         </div>
       </div>
     </div>
@@ -81,6 +81,7 @@ import { Plus } from '@element-plus/icons'
 import api from '../../../request'
 import { handleResult, getTimeStamp } from '../../../utils'
 import { nextTick } from 'vue-demi'
+import { isError } from '../../../utils'
 
 export default {
   components: {
@@ -88,16 +89,15 @@ export default {
     // Plus,
     TImageUploader,
   },
-  props: {
-  
-  },
   data () {
     return {
       dialogVisible: false,
       imgList: [],
       cateOptions: [],
       typeOptions: [],
+      product2Update: {},
       form: {
+        id: null,
         name: '',
         cate: 1,
         type: null,
@@ -107,6 +107,22 @@ export default {
         description: 'Enjoy it now!',
       },
     }
+  },
+  watch: {
+    product2Update: {
+      deep: true,
+      handler: async function (newValue, oldValue) {
+        console.log('new', newValue)
+        const { name, cate, type, price, unit, amount, description, id } = newValue
+        this.form.cate = cate
+        const { getTypeOptions } = api
+        const res = await getTypeOptions({ cate_code: this.form.cate || 1 })
+        if (res) this.typeOptions = res
+        nextTick( () => {
+          this.form = { name, cate, type, price: Number(Number(price / 100).toFixed(2)) || 10.00, unit, amount, description, id }
+        })
+      },
+    },
   },
   computed: {
     computeCateOption () {
@@ -118,15 +134,17 @@ export default {
   },
   methods: {
     setVisible () {
-      this.resetForm()
       this.$refs['dialog'].setVisible()
     },
     setHidden () {
       this.resetForm()
+      this.$refs['uploader'].clearImgList()
       this.$refs['dialog'].setHidden()
+      this.$emit('fetchData')
     },
     resetForm () {
       this.form = {
+        id: null,
         name: '',
         cate: 1,
         type: null,
@@ -139,14 +157,13 @@ export default {
     async onConfirm (e) {
       const p = { ...this.form, price: parseInt(this.form?.price * 100) || null }
       const files = this.imgList
-      const { uploadProductImage, addProduct } = api
-      const added = await addProduct(p)
-      if (!handleResult(added, false)) return
+      const { uploadProductImage, updateProduct } = api
+      const updated = await updateProduct(p)
+      if (!handleResult(updated, false)) return
 
-      const { id } = added.data
-      const upload = await uploadProductImage(files, [{ prop: 'id', value: id }])
+      const upload = await uploadProductImage(files, [{ prop: 'id', value: this.form.id }])
       this.setHidden()
-      if (!handleResult(upload)) return
+      if (isError(upload)) return false
     },
     setImgList (imgList) {
       this.imgList = imgList
@@ -162,13 +179,6 @@ export default {
       const { getTypeOptions } = api
       const res = await getTypeOptions({ cate_code: this.form.cate || 1 })
       if (res) this.typeOptions = res
-      nextTick(() => {
-        if (!this.form.cate) {
-          this.form.type = null
-          return
-        }
-        this.form.type = ((this.form.cate - 1) * 6 + (this.form.type %= 6)) || null
-      })
     },
   },
 

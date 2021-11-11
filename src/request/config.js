@@ -109,13 +109,17 @@ export const addProduct = (p) => {
   return post('/addProduct', p)
 }
 
+export const updateProduct = (p) => {
+  return post('/updateProduct', p)
+}
+
 export const getProducts = async (p, format = true) => {
   const res = await get('/products', p)
   if (!handleResult(res, false)) return
-  const { data } = res
-  let { rows } = data
-  if (format && rows) rows = rows.map(r => ({ ...r, unitPrice: `${r.price} $ / ${r.unit}`, listed: Boolean(r.listTS != null) }))
-  res.data.rows = rows
+  // const { data } = res
+  // let { rows } = data
+  // if (format && rows) rows = rows.map(r => ({ ...r, unitPrice: `${r.price} $ / ${r.unit}`, listed: Boolean(r.listTS != null) }))
+  // res.data.rows = rows
   return res
 }
 

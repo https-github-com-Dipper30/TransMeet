@@ -109,6 +109,7 @@ export default {
       {
         label: 'Unit Price',
         prop: 'unitPrice',
+        slot: (row) => `${(row.price / 100).toFixed(2)} $ / ${row.unit}`,
       },
       {
         label: 'Category',
@@ -131,6 +132,7 @@ export default {
       {
         label: 'Options',
         slot: 'options',
+        width: 240,
         fixed: 'right',
       },
     ],

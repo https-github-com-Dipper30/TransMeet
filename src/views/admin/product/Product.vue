@@ -14,6 +14,11 @@
             <search />
           </el-icon>
         </el-button>
+        <el-button type="primary" circle @click="openUpdateDialog(scope.row)">
+          <el-icon>
+            <edit />
+          </el-icon>
+        </el-button>
         <el-popconfirm title="Are you sure to delete this?" @confirm="onDeleteProduct(scope.row.id)">
           <template #reference>
             <el-button type="danger" circle>
@@ -23,7 +28,6 @@
             </el-button>
           </template>
         </el-popconfirm>
-        
         <el-button type="success" @click="openListDialog(scope.row.id)" v-if="!scope.row.listed">
           List
         </el-button>
@@ -58,6 +62,7 @@
     <add-product-dialog ref="dialog"></add-product-dialog>
     <!-- list product and select stores -->
     <list-dialog ref="listDialog" @fetchData="fetchData" />
+    <update-dialog ref="updateDialog" @fetchData="fetchData" />
   </div>
 </template>
 
@@ -72,6 +77,7 @@ import TDialog from '../../../components/common/TDialog.vue'
 import TEmpty from '../../../components/common/TEmpty.vue'
 import { handleResult } from '../../../utils'
 import ListDialog from './ListDialog.vue'
+import UpdateDialog from './UpdateProductDialog.vue'
 
 export default {
   components: {
@@ -84,8 +90,10 @@ export default {
     // eslint-disable-next-line vue/no-unused-components
     Delete,
     Search,
+    Edit,
     TBreadCrumb,
     ListDialog,
+    UpdateDialog,
   },
   data () {
     const breadConfig = [
@@ -133,6 +141,10 @@ export default {
     openListDialog (id) {
       this.$refs['listDialog'].setVisible()
       this.$refs['listDialog'].productID = id
+    },
+    openUpdateDialog (product) {
+      this.$refs['updateDialog'].setVisible()
+      this.$refs['updateDialog'].product2Update = product
     },
     async onDeleteProduct (id) {
       if (!id) {

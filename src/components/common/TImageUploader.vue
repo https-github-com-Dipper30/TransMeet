@@ -64,6 +64,9 @@ export default {
       const i = this.$refs['imgInput']
       i.click()
     },
+    clearImgList () {
+      this.imgList = []
+    },
   },
 }
 </script>
