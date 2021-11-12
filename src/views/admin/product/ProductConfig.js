@@ -132,7 +132,7 @@ export default {
       {
         label: 'Options',
         slot: 'options',
-        width: 240,
+        width: 260,
         fixed: 'right',
       },
     ],

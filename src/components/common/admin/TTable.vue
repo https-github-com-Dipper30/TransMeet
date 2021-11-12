@@ -81,7 +81,8 @@
               <div v-if="item.slot=='options'">
                 <slot :name="item.slot" :scope="scope"></slot>
               </div>
-              <div v-html="item.slot(scope.row)" v-else />            </template>
+              <div v-html="item.slot(scope.row)" v-else />
+            </template>
           </el-table-column>
         </el-table>
       </div>
@@ -264,6 +265,7 @@ export default {
       const tablePanel = document.getElementsByClassName('table-panel')
       const tp = tablePanel[0]
       if (!tp) return
+      console.log('resize')
       const offSetTop = tp?.getBoundingClientRect()?.top || 0
       const windowHeight = getWindowHeight()
       tp.style.height = `${windowHeight - offSetTop - 20}px`
@@ -274,9 +276,9 @@ export default {
     },
   },
   mounted () {
-    this.resizeTable()
+    // this.resizeTable()
     this.fetchData()
-    window.addEventListener('resize', debounce(this.resizeTable, 500))
+    // window.addEventListener('resize', debounce(this.resizeTable, 500))
   },
 }
 </script>
@@ -367,8 +369,9 @@ export default {
     padding-bottom: 5px;
     /* background-color: #999; */
     .table {
-      height: calc(100% - 50px);
-      overflow: scroll;
+      /* height: calc(100% - 50px); */
+      height: 100%;
+      /* overflow: scroll; */
       box-shadow: $admin-theme;
       .el-table {
         --el-table-header-background-color: #232e43;

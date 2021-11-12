@@ -14,9 +14,10 @@ export default {
 <style lang="scss">
 .empty {
   margin: 0 auto;
+  margin-top: 100px;
+  margin-bottom: 100px;
   display: flex;
-  flex-direction: column
-  ;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   img {

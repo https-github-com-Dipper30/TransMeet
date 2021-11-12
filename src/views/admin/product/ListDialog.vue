@@ -142,9 +142,9 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .el-table {
-  height: 600px;
+  height: 450px;
   overflow: scroll;
 }
 .content {

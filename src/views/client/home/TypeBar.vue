@@ -1,9 +1,9 @@
 <template>
   <div class="type-bar">
     <div class="types" v-if="cate>0 && cate<=6">
-      <div class="item" v-for="t of types" :key="t.id" @click="onSelectType(t.code)">
+      <div class="item" v-for="(t, index) of types" :key="t.id" @click="onSelectType(t.code, index)">
         <img :id="t.code" src="@/assets/common/types/1.jpg" :alt="t.name" />
-        <div class="label">{{ $t(`home.type.${t.code}`) }}</div>
+        <div class="label" :class="{'selected': selected == index}">{{ $t(`home.type.${t.code}`) }}</div>
       </div>
     </div>
   </div>
@@ -34,12 +34,14 @@ export default {
         nextTick(() => {
           types.forEach(type => this.setImg(type.code))
         })
+        this.onSelectType(this.types[0].code, 0)
       }
     },
   },
   data () {
     return {
       types: [],
+      selected: 0,
     }
   },
   methods: {
@@ -55,7 +57,8 @@ export default {
       }
       img.src = i
     },
-    onSelectType (typeCode) {
+    onSelectType (typeCode, index) {
+      this.selected = index
       this.$emit('selectType', typeCode)
     },
   },
@@ -77,11 +80,31 @@ export default {
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
+      cursor: pointer;
       img {
         display: block;
         width: 30px;
         height: 30px;
+        margin-bottom: 10px;
       }
+      .label {
+        position: relative;
+        &.selected {
+          &::before {
+            width: 100%;
+            height: 4px;
+            content: '';
+            z-index: -1;
+            border-radius: 30px;
+            left: 50%;
+            top: 18px;
+            transform: translateX(-50%);
+            background-color: $yellow;
+            position: absolute;
+          }
+        }
+      }
+      
     }
   }
 }

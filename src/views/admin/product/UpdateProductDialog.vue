@@ -67,7 +67,7 @@
       <div class="row">
         <div class="label">Images</div>
         <div class="input">
-          <t-image-uploader ref="uploder" :multipleImages="true" @submitImgList="setImgList" />
+          <t-image-uploader ref="uploader" :multipleImages="true" @submitImgList="setImgList" />
         </div>
       </div>
     </div>
@@ -137,9 +137,10 @@ export default {
       this.$refs['dialog'].setVisible()
     },
     setHidden () {
-      this.resetForm()
+      console.log('hide')
       this.$refs['uploader'].clearImgList()
       this.$refs['dialog'].setHidden()
+      this.resetForm()
       this.$emit('fetchData')
     },
     resetForm () {
