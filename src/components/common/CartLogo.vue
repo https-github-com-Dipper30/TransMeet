@@ -1,22 +1,23 @@
 <template>
-  <div class="cart-logo">
+  <div id="cart">
     <img src="../../assets/common/cart.png" alt="">
-    <div class="cart-items"> 0</div>
+    <div class="cart-items"> {{ amount }} </div>
   </div>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-
-    }
+  computed: {
+    amount () {
+      return this.$store.getters.getCartItemAmount
+    },
   },
+
 }
 </script>
 
 <style lang="scss" scoped>
-.cart-logo {
+#cart {
   background-color: $yellow;
   border-radius: 35px;
   height: 35px;

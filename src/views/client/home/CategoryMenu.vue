@@ -58,6 +58,7 @@ export default {
   justify-content: flex-start;
   align-items: center;
   box-sizing: border-box;
+  background-color: #fff;
   z-index: 9;
   .item {
     height: 36px;

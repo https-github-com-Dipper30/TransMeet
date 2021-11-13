@@ -33,4 +33,12 @@ export const actions = {
     // localStorage.setItem('token', res.data.token)
     return user
   },
+  actCart: async (store, forceNew = true) => {
+    let user = store.getters.getUser
+    if (!user) return
+    const { getCartItems } = api
+    const res = await getCartItems({ uid: user.id })
+    if (!handleResult(res, false)) return
+    store.commit('setCartItems', res.data.rows)
+  }
 }

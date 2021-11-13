@@ -13,5 +13,8 @@ export default {
 #content {
   padding-top: 50px;
   box-sizing: border-box;
+  background: #f8f8f8;
+  min-height: 100vh;
+  height: 100%;
 }
 </style>

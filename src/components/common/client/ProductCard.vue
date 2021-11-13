@@ -26,7 +26,6 @@ export default {
       deep: true,
       handler: function (newValue, oldValue) {
         if (newValue.imgList) {
-          console.log('new', newValue)
           const img = newValue.imgList[0]
           document.getElementById(newValue.id).src = `data:image/${img.type};base64,${img.data}`
         }
@@ -35,7 +34,6 @@ export default {
   },
   mounted () {
     if (this.product.imgList) {
-      console.log('p', this.product)
       const img = this.product.imgList[0]
       document.getElementById(this.product.id).src = `data:image/${img.type};base64,${img.data}`
     }
@@ -53,6 +51,7 @@ export default {
   font-family: 'Roboto', Helvetica, Arial;
   color: #333;
   margin: 20px 10px;
+  background-color: #fff;
   .img {
     position: absolute;
     top: 0;
@@ -69,10 +68,7 @@ export default {
     position: absolute;
     top: 200px;
     width: 200px;
-    height: 200px;
-    .p-type {
-
-    }
+    height: 115px;
     .p-name {
       position: absolute;
       /* left: 8px;

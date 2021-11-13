@@ -1,13 +1,12 @@
 <template>
   <div class="home">
-    {{ $t("home.slogan") }} 
     <!-- Welcome Home! -->
     <!-- <div class="bg"></div> -->
     <category-menu @selectCate="onCateChange" />
     <type-bar :cate="cate" @selectType="onTypeChange" />
     <t-empty v-if="isEmpty" />
     <div class="list" v-else>
-      <product-card v-for="product of products" :key="product.id" :product="product"></product-card>
+      <product-card v-for="product of products" :key="product.id" :product="product" class="product-card" @click="checkProductDetail(product.id)" />
     </div>
   </div>
 </template>
@@ -63,6 +62,10 @@ export default {
       const res = await getProducts(p)
       this.products = res.data.rows
     },
+    checkProductDetail (pid) {
+      if (!pid) return
+      window.open(`/product/${pid}`, '_blank')
+    },
   },
   mounted () {
     
@@ -72,7 +75,7 @@ export default {
 
 <style lang="scss" scoped>
 .home {
-  height: calc(100vh - 50px);
+  /* height: calc(100vh - 50px); */
   /* overflow: scroll; */
   position: relative;
   margin: 0 150px;
@@ -100,6 +103,10 @@ export default {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
+    background-color: #fff;
+    .product-card {
+      cursor: pointer;
+    }
   }
 }
 </style>

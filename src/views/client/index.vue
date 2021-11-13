@@ -13,7 +13,8 @@ export default {
   components: {
     ClientLayout,
   },
-  mounted () {
+  async mounted () {
+    await this.$store.dispatch('actCart')
   },
 }
 </script>

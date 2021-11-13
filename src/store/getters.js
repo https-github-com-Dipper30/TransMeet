@@ -14,4 +14,10 @@ export const getters = {
   getUserID: state => {
     return state.user?.id || Number(localStorage.getItem('user_id'))
   },
+  getCartItems: state => {
+    return state.cartItems
+  },
+  getCartItemAmount: state => {
+    return state.cartItems?.length || 0
+  },
 }

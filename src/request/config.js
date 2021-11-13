@@ -149,3 +149,20 @@ export const deleteProduct = async (p) => {
   return post('deleteProduct', p)
 }
 
+/**
+ * add a product to shopping cart
+ * @param { uid: number, pid: number, sid: number, amount: number } p 
+ * @returns 
+ */
+export const addToCart = async (p) => {
+  return post('/addToCart', p)
+}
+
+// { uid: number }
+export const getCartItems = async (p) => {
+  return get('cart', p)
+}
+
+export const isInCart = async (p) => {
+  return post('isInCart', p)
+}

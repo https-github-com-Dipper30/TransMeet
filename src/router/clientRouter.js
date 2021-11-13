@@ -7,7 +7,9 @@ export const clientRouter = {
       path: 'Home',
       component: () => import('../views/client/Home.vue'),
     },
-    
+    {
+      path: ''
+    }
   ],
   meta: {
     // needLogin: true,

@@ -1,13 +1,18 @@
 <template>
   <div class="empty">
     <img src="../../assets/page/empty.png" alt="">
-    <div class="text">It is empty.</div>
+    <div class="text">{{ text }}</div>
   </div>
 </template>
 
 <script>
 export default {
-
+  props: {
+    text: {
+      type: String,
+      default: 'It is empty.',
+    },
+  },
 }
 </script>
 

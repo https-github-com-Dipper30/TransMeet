@@ -1,10 +1,9 @@
-// import login from './login'
-// import notification from './notification'
+import login from './login'
 import home from './home'
-// import clock from './clock'
-// import modal from './modal'
+import product from './product'
 
-// page modules
 export default {
+  login,
   home,
+  product,
 }
