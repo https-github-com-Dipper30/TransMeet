@@ -5,4 +5,5 @@ export default {
   inventory: 'inventory',
   left: '{amount} {unit} left',
   store: 'Select Store Source  ',
+  recommend: 'You may also like',
 }

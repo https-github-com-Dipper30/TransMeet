@@ -49,7 +49,12 @@
       </div>
     </div>
     <div class="recommend">
-      recommend
+      <div class="title">
+        {{ $t('product.recommend') }}
+      </div>
+      <div class="list">
+        <product-card v-for="item of recommendation" :key="item.id" :product="item" @click="checkProductDetail(item.id)" />
+      </div>
     </div>
   </div>
 </template>
@@ -61,11 +66,13 @@ import TEmpty from '../../../components/common/TEmpty.vue'
 import { nextTick } from 'vue-demi'
 import TButton from '../../../components/common/TButton.vue'
 import { access } from '../../../config/auth'
+import ProductCard from '../../../components/common/client/ProductCard.vue'
 
 export default {
   components: {
     TEmpty,
     TButton,
+    ProductCard,
   },
   data () {
     return {
@@ -75,6 +82,7 @@ export default {
       store: null,
       cartLock: false,
       isInCart: false,
+      recommendation: [],
     }
   },
   computed: {
@@ -148,6 +156,26 @@ export default {
     onStoreChange () {
       this.checkIfIsInCart()  
     },
+    // fetch recommendation
+    async fetchRecommendation () {
+      const { getProducts } = api
+      const p = {
+        size: 4,
+        pic: true,
+        // showStores: true,
+        listed: true,
+        type: this.product.Type.code || 1,
+      }
+      const products = await getProducts(p)
+      if (!handleResult(products, false)) return
+      this.recommendation = products.data.rows
+      console.log('pppp', this.recommendation)
+    },
+    // link to product
+    checkProductDetail (pid) {
+      if (!pid) return
+      window.open(`/product/${pid}`, '_blank')
+    },
   },
   async created () {
     const { pathname } = window.location
@@ -185,6 +213,7 @@ export default {
       })
       return
     }
+    this.fetchRecommendation()
     stores.forEach(store => {
       this.storeOptions.push({ value: store.id, label: store.name })
     })
@@ -313,6 +342,29 @@ export default {
       img {
         width: 400px;
         height: 400px;
+      }
+    }
+  }
+  .recommend {
+    margin: 30px auto;
+    width: 930px;
+    .title {
+      text-align: left;
+      padding-left: 10px;
+      height: 50px;
+      line-height: 50px;
+      font-size: 22px;
+      font-weight: 700;
+      color: $super-dark-yellow;
+    }
+    .list {
+      width: 930px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      .product-card {
+        cursor: pointer;
       }
     }
   }

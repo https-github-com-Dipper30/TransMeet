@@ -27,7 +27,7 @@ export const actions = {
     if (!token) return false
     const { loginByToken } = api
     const res = await loginByToken()
-    if (!handleResult(res, true, 'Welcome Back!')) return false
+    if (!handleResult(res, false, 'Welcome Back!')) return false
     user = res.data.user
     store.commit('setUser', user)
     // localStorage.setItem('token', res.data.token)

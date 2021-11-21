@@ -5,4 +5,5 @@ export default {
   inventory: '库存',
   left: '剩余 {amount} 件',
   store: '选择供货商店  ',
+  recommend: '康康其他的',
 }
