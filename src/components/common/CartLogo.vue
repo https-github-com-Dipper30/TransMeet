@@ -1,5 +1,5 @@
 <template>
-  <div id="cart">
+  <div id="cart" @click="goToCart">
     <img src="../../assets/common/cart.png" alt="">
     <div class="cart-items"> {{ amount }} </div>
   </div>
@@ -12,7 +12,13 @@ export default {
       return this.$store.getters.getCartItemAmount
     },
   },
-
+  methods: {
+    goToCart () {
+      const uid = this.$store.getters.getUserID
+      if (!uid) return
+      window.open(`/cart?user=${uid}`, '_blank')
+    },
+  },
 }
 </script>
 

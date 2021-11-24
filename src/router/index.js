@@ -7,38 +7,12 @@ import { access } from '../config/auth'
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: () => import('../views/client/index.vue'),
-    beforeEnter: async (to, from, next) => {
-      // check if user is logged in
-      const user = await store.dispatch('actUser')
-      // if not logged in, go to entry page
-      if (!user) next({ path: '/index' }) 
-      else next()
-    },
-    children: [
-      {
-        path: '',
-        component: () => import('../views/client/home/Home.vue'),
-      },
-      {
-        path: 'home',
-        component: () => import('../views/client/home/Home.vue'),
-      },
-      {
-        path: 'product/:id',
-        component: () => import('../views/client/product-detail/ProductDetail.vue'),
-      },
-    ],
-  },
-  {
     path: '/index',
     name: 'Index',
     component: () => import('../views/index/Entry.vue'),
   },
   adminRouter,
-  // clientRouter,
+  clientRouter,
   {
     path: '/no-auth',
     name: 'NoAuth',
@@ -79,5 +53,9 @@ router.beforeEach(async (to, from, next) => {
   }
   next()
 })
+
+// router.afterEach(async (to, from) => {
+//   console.log('to', to, 'from', from)
+// })
 
 export default router

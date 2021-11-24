@@ -1,4 +1,6 @@
 import { ElMessage } from 'element-plus'
+// import { errCode } from '../config/index.ts'
+import router from '../router'
 
 /**
  * check if the result from request is instance of Error
@@ -10,6 +12,9 @@ import { ElMessage } from 'element-plus'
  */
 export const handleResult = (res, notifySuccess = true, notifyMessage = 'Success!') => {
   if (isError(res)) {
+    if (res?.code == 10003) {
+      router.push('/no-auth')
+    }
     ElMessage({
       message: res.msg,
       type: 'error',
@@ -91,4 +96,16 @@ export const getWindowHeight = () => {
 
 export const getWindowWidth = () => { 
   return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
+}
+
+export const getWindowPath = () => {
+  const { location } = window
+  const { pathname, search } = location
+  return { pathname, param: getUrlParam(search) }
+}
+
+export const getUrlParam = (url) => {
+  const exp = /(?<=\?|&)(?<k>\w+)=(?<v>\w+)/g
+  let res = url.matchAll(exp)
+  return [...res]
 }

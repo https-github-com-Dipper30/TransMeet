@@ -60,6 +60,7 @@ export default {
       this.$store.commit('setUser', user)
       const { auth } = user
       localStorage.setItem('token', token)
+      localStorage.setItem('userId', user.id)
       if (auth.includes(access.LOG_IN_ADMIN)) {
         // go to admin, open in new page
         let routeData = this.$router.resolve({

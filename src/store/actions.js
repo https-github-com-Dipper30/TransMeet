@@ -30,7 +30,7 @@ export const actions = {
     if (!handleResult(res, false, 'Welcome Back!')) return false
     user = res.data.user
     store.commit('setUser', user)
-    // localStorage.setItem('token', res.data.token)
+    localStorage.setItem('userId', user.id)
     return user
   },
   actCart: async (store, forceNew = true) => {

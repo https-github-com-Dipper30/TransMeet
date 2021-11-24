@@ -12,7 +12,7 @@ export const getters = {
   //   return state.user || JSON.parse(localStorage.getItem('user'))
   // },
   getUserID: state => {
-    return state.user?.id || Number(localStorage.getItem('user_id'))
+    return state.user?.id || Number(localStorage.getItem('userId'))
   },
   getCartItems: state => {
     return state.cartItems

@@ -199,7 +199,6 @@ export default {
       if (this.product.imgList?.length > 0) {
         const img = this.product.imgList[0]
         const i = document.getElementById('pDetailImg')
-        console.log(i)
         i.src = `data:image/${img.type};base64,${img.data}`
       }
       this.checkIfIsInCart()

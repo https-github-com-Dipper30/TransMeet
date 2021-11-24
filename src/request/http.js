@@ -47,6 +47,10 @@ http.interceptors.response.use(
         // token error
         console.log('wrong token, please relogin')
         return { code, msg }
+      // case 10003:
+      //   console.log('not authorized')
+      //   window.open('no-auth')
+      //   break
       default:
         // if (mHttpConfig.warn === 0) {
         //   ElMessage.error('网络错误：' + msg);

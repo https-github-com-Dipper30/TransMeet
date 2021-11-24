@@ -23,7 +23,6 @@ export default {
   },
   watch: {
     cate: async function (newValue, oldValue) {
-      console.log('new', newValue)
       if (newValue < 0 || newValue > 6) return
       if (newValue == 0) {
         // TODO hot sale products

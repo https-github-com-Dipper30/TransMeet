@@ -160,9 +160,21 @@ export const addToCart = async (p) => {
 
 // { uid: number }
 export const getCartItems = async (p) => {
-  return get('cart', p)
+  return get('/cart', p)
+}
+
+/**
+ * update one cart item by id
+ * @param { id: number, amount: number, selected: boolean } p
+ */
+export const updateCartItem = async (p) => {
+  return post('/updateCart', p)
+}
+
+export const removeCartItemByID = async (p) => {
+  return post('/deleteCart', p)
 }
 
 export const isInCart = async (p) => {
-  return post('isInCart', p)
+  return post('/isInCart', p)
 }
