@@ -2,7 +2,7 @@
   <div id="header">
     <div class="home">
       <img src="../../../assets/common/menu-dark.png" alt="menu" @click="alterSider">
-      <div class="home-btn">
+      <div class="home-btn" @click="goToHome">
         Home
       </div>
     </div>
@@ -31,6 +31,9 @@ export default {
   methods: {
     alterSider () {
       this.$emit('alterSider')
+    },
+    goToHome () {
+      this.$router.push('/')
     },
   },
 }

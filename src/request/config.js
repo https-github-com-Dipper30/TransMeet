@@ -178,3 +178,11 @@ export const removeCartItemByID = async (p) => {
 export const isInCart = async (p) => {
   return post('/isInCart', p)
 }
+
+/**
+ * place one order or multiple orders
+ * @param {*} p 
+ */
+export const placeOrder = async (p) => {
+  return post('/placeOrder', p)
+}

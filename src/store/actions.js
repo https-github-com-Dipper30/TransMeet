@@ -40,5 +40,5 @@ export const actions = {
     const res = await getCartItems({ uid: user.id })
     if (!handleResult(res, false)) return
     store.commit('setCartItems', res.data.rows)
-  }
+  },
 }

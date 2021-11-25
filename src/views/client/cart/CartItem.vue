@@ -1,15 +1,21 @@
 <template>
   <div id="cartItem">
-    <div class="pic">
+    <div class="pic" @click="checkProductDetail">
       <img :id="`cartItemImg${item.id}`" src="@/assets/bg.jpeg" alt="" />
     </div>
-    <div class="info">
+    <div class="info" @click="checkProductDetail">
       <div class="name">
         {{ item.Product.name }}
       </div>
       <div class="store">
         {{ $t('cart.storeName', { store: item.Store.name }) }}
       </div>
+    </div>
+    <div class="inventory">
+      <div v-if="available">
+         {{ $t('cart.inStore', { amount: product.amount }) }}
+      </div>
+      <div v-else>  {{ $t('cart.unavailable') }} </div>
     </div>
     <div class="count">
       <el-input-number v-model="amount" :min="1" :max="maxAmount" @change="onProductAmountChange" /> &nbsp; {{ product.unit }}
@@ -30,6 +36,7 @@
 <script>
 import api from '../../../request'
 import { Delete } from '@element-plus/icons'
+import { convertBigMoney } from '../../../utils'
 
 export default {
   props: ['item'],
@@ -47,17 +54,19 @@ export default {
       return this.item.Product
     },
     totalPrice () {
-      return this.amount * this.product.price
+      return this.amount * convertBigMoney(this.product.price)
     },
     maxAmount () {
       return this.product.amount
+    },
+    available () {
+      return this.product.listTS
     },
   },
   watch: {
     item: {
       deep: true,
       handler (newValue, oldValue) {
-        console.log(newValue.amount)
         this.amount = newValue.amount
       },
     },
@@ -72,6 +81,10 @@ export default {
     },
     onRemoveItem () {
       this.$emit('removeItem')
+    },
+    checkProductDetail () {
+      window.open(`/product/${this.product.id}`, '_blank')
+      this.product.id
     },
   },
   created () {
@@ -99,6 +112,8 @@ export default {
   height: 90px;
   color: #333;
   box-sizing: border-box;
+  background-color: #fff;
+  padding: 10px 20px 10px 0;
   .pic {
     img {
       width: 90px;
@@ -127,11 +142,18 @@ export default {
       width: 120px;
     }
   }
+  .inventory {
+    width: 180px;
+    text-align: center;
+    line-height: 60px;
+    height: 60px;
+  }
   .count {
     height: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 280px;
     .el-input-number__decrease, .el-input-number__increase {
       background: $yellow;
       color: #fff;
@@ -144,7 +166,7 @@ export default {
     }
   }
   .price {
-    width: 100px;
+    width: 160px;
     text-align: left;
     padding-left: 40px;
     .label {

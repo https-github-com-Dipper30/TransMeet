@@ -3,7 +3,7 @@ export default {
   addToCart: 'Add To Cart',
   buy: 'Purchase',
   inventory: 'inventory',
-  left: '{amount} {unit} left',
+  left: '{amount} * {unit} left',
   store: 'Select Store Source  ',
   recommend: 'You may also like',
 }

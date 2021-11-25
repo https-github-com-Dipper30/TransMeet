@@ -3,17 +3,20 @@
     <div class="title">
       {{ $t('cart.title') }}
     </div>
-    <div class="list">
+    <div class="list" v-if="!empty">
       <el-checkbox-group
         v-model="checkedItems"
         @change="selectedChange"
         class="check-list"
         border
       >
-        <el-checkbox v-for="item in cartItems" :key="item.id" :label="item.id" >
+        <el-checkbox v-for="item in cartItems" :key="item.id" :label="item.id" :disabled="item.Product.listTS == null" >
           <cart-item :ref="`cart${item.id}`" :item="item" @click.prevent @updateCart="updateItemAmountById" @removeItem="removeItem(item.id)"></cart-item>
         </el-checkbox>
       </el-checkbox-group>
+    </div>
+    <div v-else>
+      <t-empty></t-empty>
     </div>
     <div class="option">
       <div class="sum">
@@ -23,7 +26,7 @@
         <div class="totalPrice"><span class="text">{{ totalPrice }}</span> $</div>
       </div>
       <div class="purchase">
-        <t-button class="buy-btn">{{ $t('cart.buy') }}</t-button>
+        <t-button class="buy-btn" @onClick="placeOrder" :disabled="lock||empty">{{ $t('cart.buy') }}</t-button>
       </div>
     </div>
     
@@ -33,14 +36,17 @@
 <script>
 import { nextTick } from 'vue-demi'
 import api from '../../../request'
-import { handleResult, getWindowPath } from '../../../utils'
+import { handleResult, getWindowPath, getTimeStamp } from '../../../utils'
 import CartItem from './CartItem.vue'
 import TButton from '../../../components/common/TButton.vue'
+import { ElLoading } from 'element-plus'
+import TEmpty from '../../../components/common/TEmpty.vue'
 
 export default {
   components: {
     CartItem,
     TButton,
+    TEmpty,
   },
   data () {
     return {
@@ -51,6 +57,7 @@ export default {
       lastCopyOfCheckedItems: [], // to compare between recently modified checked items and original items, make updates according to ids
       imgList: [],
       totalPrice: 0,
+      lock: false, // boolean
     }
   },
   methods: {
@@ -70,7 +77,7 @@ export default {
       const allItemIDs = []
       this.cartItems.map(async (item) => {
         allItemIDs.push(item.id)
-        if (item.selected) selectedItems.push(item.id)
+        if (item.selected && item.Product?.listTS) selectedItems.push(item.id)
       })
       this.checkedItems = selectedItems
       this.lastCopyOfCheckedItems = selectedItems
@@ -118,15 +125,49 @@ export default {
       await removeCartItemByID({ id })
       await this.fetchCartData()
     },
+    async placeOrder () {
+      if (this.lock) return
+      const { placeOrder } = api
+      const loading = ElLoading.service({
+        lock: true,
+        text: 'Loading',
+        background: 'rgba(0, 0, 0, 0.7)',
+      })
+      this.lock = true
+      const p = {
+        uid: this.$store.getters.getUserID,
+        time: getTimeStamp(),
+        totalPrice: this.totalPrice,
+        orders: this.cartItems.filter(item => this.checkedItems.includes(item.id)).map(item => {
+          return {
+            pid: item.Product.id,
+            amount: this.$refs[`cart${item.id}`].amount,
+            sid: item.sid,
+            price: this.$refs[`cart${item.id}`].totalPrice,
+          }
+        }),
+      }
+      const res = await placeOrder(p)
+      this.lock = false
+      loading.close()
+      if (!handleResult(res, false)) return   
+      const isEngligh = this.$i18n.locale == 'en'
+      res.data.forEach(r => {
+        if (r.result == false) {
+          ElNotification({
+            title: isEngligh ? `Order ${r.id} is not completed due to unknown reason` : `订单 ${r.id} 处理时遇到错误`,
+            message: r.msg,
+            type: 'error',
+          })
+        }
+      })
+      await this.fetchCartData()
+    },
   },
   computed: {
-    // totalPrice () {
-    //   const sum = this.cartItems.reduce((prev, item) => {
-    //     if (item.selected) prev += item.amount * item.Product.price
-    //     return prev
-    //   }, 0)
-    //   return sum
-    // },
+    empty () {
+      return this.cartItems.length == 0
+    },
   },
   created () {
     const { param } = getWindowPath()
@@ -141,8 +182,23 @@ export default {
 <style lang="scss" scoped>
 #cart {
   margin: 20px auto;
-  width: 1000px;
+  width: 1100px;
   color: #333;
+  .title {
+    text-align: left;
+    color: $super-dark-yellow;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 40px;
+    height: 40px;
+  }
+  .list {
+    border: 1px #777 solid;
+    border-radius: 10px;
+    width: 1100px;
+    padding: 10px 20px;
+    box-sizing: border-box;
+  }
   .check-list {
     display: flex;
     flex-direction: column;
@@ -152,7 +208,7 @@ export default {
   }
   .option {
     height: 60px;
-    width: 1000px;
+    width: 1100px;
     font-size: 18px;
     font-weight: 600;
     display: flex;

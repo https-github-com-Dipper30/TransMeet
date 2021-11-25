@@ -5,4 +5,6 @@ export default {
   pCount: '{number} Products',
   totalPrice: 'Total Price: ',
   buy: 'Place Order',
+  inStore: '{amount} Left',
+  unavailable: 'Currently Not Available',
 }

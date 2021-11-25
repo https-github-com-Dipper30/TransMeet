@@ -82,11 +82,11 @@ export const stringIsNumeric = (s) => {
  * @returns {number} unix timestamp
  */
 export const getUnixTimeStamp = (date) => {
-  return Math.floor(new Date(date).getTime() / 1000)
+  return date ? Math.floor(new Date(date).getTime() / 1000) : Math.floor(new Date().getTime() / 1000)
 }
 
 export const getTimeStamp = (date) => {
-  return new Date(date).getTime()
+  return date ? new Date(date).getTime() : new Date().getTime()
 }
 
  // get height and width of viewport
@@ -108,4 +108,16 @@ export const getUrlParam = (url) => {
   const exp = /(?<=\?|&)(?<k>\w+)=(?<v>\w+)/g
   let res = url.matchAll(exp)
   return [...res]
+}
+
+/**
+ * convert big money to normal
+ * if decimal == true, returns string
+ * else returns number
+ * @param {number} money 
+ * @param {boolean} decimal 
+ * @returns 
+ */
+export const convertBigMoney = (money, decimal = true) => {
+  return decimal ? Number((money / 100).toFixed(2)) : Math.floor(money / 100)
 }
