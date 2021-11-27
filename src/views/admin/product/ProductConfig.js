@@ -109,6 +109,8 @@ export default {
       {
         label: 'Unit Price',
         prop: 'unitPrice',
+        sortable: 'custom',
+        sortChange: 'sortPrice',
         slot: (row) => `${(row.price / 100).toFixed(2)} $ / ${row.unit}`,
       },
       {

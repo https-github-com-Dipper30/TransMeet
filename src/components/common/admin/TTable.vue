@@ -67,7 +67,7 @@
     <!-- table -->
     <panel class="table-panel">
       <div class="table" v-if="tableData && tableData.length > 0">
-        <el-table :data="tableData" style="width: 100%" border>
+        <el-table :data="tableData" style="width: 100%" border @sort-change="handleSort">
           <el-table-column v-if="indexed" type="index" fixed :index="indexMethod" />
           <el-table-column
             v-for="item of config.table.attributes"
@@ -76,6 +76,8 @@
             :prop="item.prop || item.label"
             :label="item.label"
             :width="item.width || 200"
+            :sortable="item.sortable || false"
+            :sort-method="item.sortMethod"
           >
             <template v-if="item.slot" #default="scope">
               <div v-if="item.slot=='options'">
@@ -114,7 +116,7 @@
 <script>
 import Panel from '../Panel.vue'
 import TButton from '../TButton.vue'
-import { getWindowHeight, debounce } from '../../../utils'
+import { getWindowHeight, deepClone } from '../../../utils'
 import api from '../../../request'
 import { Minus } from '@element-plus/icons'
 
@@ -273,6 +275,9 @@ export default {
     onHideSearchBox () {
       this.hideSearchBox = !this.hideSearchBox
       setTimeout(this.resizeTable, 800)
+    },
+    handleSort ({ column, prop, order }) {
+      this.$emit('handleSort', { prop, order })
     },
   },
   mounted () {

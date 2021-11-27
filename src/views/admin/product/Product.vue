@@ -7,6 +7,7 @@
       :total="total"
       @fetchData="fetchData"
       @onClickAddProduct="onClickAddProduct"
+      @handleSort="handleSort"
     >
       <template v-slot:options="{ scope }">
         <el-button type="primary" circle @click="onCheckImg(scope)">
@@ -107,15 +108,19 @@ export default {
       breadConfig,
       imgList: [],
       availableStores: [], // stores that the product is available in
+      sortDesc: null, // table data sort by price
     }
   },
   methods: {
     async fetchData (p) {
+      if (this.sortDesc == true || this.sortDesc == false) {
+        p = p ? p : {}
+        p = { ...p, sortDesc: this.sortDesc }
+      }
       const { getProducts } = api
       const res = await getProducts(p)
       const { count, rows } = res.data
       this.tableData = rows
-      console.log(rows)
       this.total = count
     },
     onClickAddProduct () {
@@ -171,7 +176,26 @@ export default {
       const res = await unlistProduct({ pid: id })
       if(!handleResult(res)) return
       this.fetchData()
-
+    },
+    handleSort ({ prop, order }) {
+      if (prop == 'unitPrice') {
+        switch (order) {
+          case 'ascending':
+            this.sortDesc = false
+            this.fetchData()
+            break
+          case 'descending':
+            this.sortDesc = true
+            this.fetchData()
+            break
+          default:
+            this.sortDesc = null
+            this.fetchData()
+        }
+      } else {
+        this.sortDesc = null
+        this.fetchData()
+      }
     },
   },
   created () {

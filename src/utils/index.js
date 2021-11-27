@@ -121,3 +121,17 @@ export const getUrlParam = (url) => {
 export const convertBigMoney = (money, decimal = true) => {
   return decimal ? Number((money / 100).toFixed(2)) : Math.floor(money / 100)
 }
+
+export const deepClone = (raw) => {
+  const res = {}
+  if (Array.isArray(raw)) {
+    return raw.map(item => deepClone(item))
+  } else if (typeof raw != 'object') {
+    return raw
+  } else {
+    for (let attr of Reflect.ownKeys(raw)) {
+      res[attr] = deepClone(raw[attr])
+    }
+  }
+  return res
+}
