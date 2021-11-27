@@ -60,6 +60,7 @@ export default {
           this.toHome()
           break
         case '2':
+          this.toOrders()
           break
         case '3':
           break
@@ -78,7 +79,18 @@ export default {
       this.$router.push('/index')
     },
     toHome () {
-      
+      this.$router.push('/')
+    },
+    toOrders () {
+      const id = this.$store.getters.getUserID
+      if (!id) {
+        this.$message({
+          message: 'You are not logged in.',
+          type: 'error',
+        })
+        return
+      }
+      this.$router.push(`/order?user=${id}`)
     },
   },
   created () {

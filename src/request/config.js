@@ -186,3 +186,7 @@ export const isInCart = async (p) => {
 export const placeOrder = async (p) => {
   return post('/placeOrder', p)
 }
+
+export const getHistoryOrders = async (p) => {
+  return post('/orders', p)
+}

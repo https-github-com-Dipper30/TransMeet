@@ -28,5 +28,9 @@ export const clientRouter = {
       path: 'cart',
       component: () => import('../views/client/cart/Cart.vue'),
     },
+    {
+      path: 'order',
+      component: () => import('../views/client/order/Order.vue'),
+    },
   ],
 }
