@@ -157,18 +157,8 @@ export default {
     },
     // fetch recommendation
     async fetchRecommendation () {
-      const { getProducts } = api
-      const p = {
-        size: 4,
-        pic: true,
-        // showStores: true,
-        listed: true,
-        type: this.product.Type.code || 1,
-      }
-      const products = await getProducts(p)
-      if (!handleResult(products, false)) return
-      this.recommendation = products.data.rows
-      console.log('pppp', this.recommendation)
+      const { getRecommendedProducts } = api
+      this.recommendation = await getRecommendedProducts({ type: 'rate' })
     },
     // link to product
     checkProductDetail (pid) {
