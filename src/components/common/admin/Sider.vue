@@ -34,6 +34,10 @@
         <div class="short" v-if="collapse">Product</div>
         <div class="text" v-else>Product</div>
       </div>
+      <div class="sub-row" data-item=2.4 :class="{'selected': selected == 2.4}" @click="onClick">
+        <div class="short" v-if="collapse">Order</div>
+        <div class="text" v-else>Order</div>
+      </div>
     </div>
     
     <div class="row" data-item=3 :class="{'selected': selected == 3}" @click="onClick">
@@ -79,6 +83,7 @@ export default {
       2.1: '/admin/staff',
       2.2: '/admin/store',
       2.3: '/admin/product',
+      2.4: '/admin/order',
       3: '/admin/chat',
     }
     return {
@@ -179,7 +184,7 @@ export default {
     overflow: hidden;
     transition: 0.3s;
     &.unfold {
-      height: 200px;
+      height: 250px;
     }
     .el-icon {
       transition: 0.3s;

@@ -4,9 +4,27 @@
     <!-- <div class="bg"></div> -->
     <category-menu @selectCate="onCateChange" />
     <type-bar :cate="cate" @selectType="onTypeChange" />
+
     <t-empty v-if="isEmpty" />
-    <div class="list" v-else>
+    <div class="list" v-if="cate!=0 && products.length>0">
       <product-card v-for="product of products" :key="product.id" :product="product" class="product-card" @click="checkProductDetail(product.id)" />
+    </div>
+    <div v-if="this.cate == 0" class="hot-sale">
+      <div class="title">
+        {{ $t('home.hotSale') }}
+      </div>
+      <div class="list" v-if="hotSale.length>0">
+        <product-card v-for="product of hotSale" :key="product.id" :product="product" class="product-card" @click="checkProductDetail(product.id)" />
+      </div>
+      <t-empty v-else />
+      <div class="title">
+        {{ $t('home.highlyRated') }}
+      </div>
+      <div class="list" v-if="highlyRated.length>0">
+        <product-card v-for="product of highlyRated" :key="product.id" :product="product" class="product-card" @click="checkProductDetail(product.id)" />
+      </div>
+      <t-empty v-else />
+
     </div>
   </div>
 </template>
@@ -31,11 +49,13 @@ export default {
       cate: 0,
       type: 0,
       products: [],
+      hotSale: [],
+      highlyRated: [],
     }
   },
   computed: {
     isEmpty () {
-      return this.products.length == 0
+      return this.cate != 0 && this.products.length == 0
     },
   },
   methods: {
@@ -45,6 +65,7 @@ export default {
       this.cate = cate
       if (this.cate == 0) {
         this.products = []
+        this.getRecommend()
         return
       }
     },
@@ -65,6 +86,14 @@ export default {
     checkProductDetail (pid) {
       if (!pid) return
       window.open(`/product/${pid}`, '_blank')
+    },
+    async getRecommend () {
+      const { getRecommendedProducts } = api
+      const hotSale = await getRecommendedProducts({ type: 'sold' })
+      const highlyRated = await getRecommendedProducts({ type: 'rate' })
+      console.log(hotSale, highlyRated)
+      this.hotSale = hotSale || []
+      this.highlyRated = highlyRated || []
     },
   },
   mounted () {
@@ -100,12 +129,29 @@ export default {
     color: $text-color;
   }
   .list {
+    margin-top: 50px;
     display: flex;
     flex-wrap: wrap;
     width: 100%;
     background-color: #fff;
     .product-card {
       cursor: pointer;
+    }
+  }
+  .hot-sale {
+    margin: 20px auto;
+    .title {
+      width: 100%;
+      text-align: left;
+      color: $super-dark-yellow;
+      font-size: 19px;
+      font-weight: 600;
+      line-height: 40px;
+      height: 40px;
+      margin: 20px 0 10px;
+    }
+    .list {
+      margin-top: 0;
     }
   }
 }

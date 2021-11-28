@@ -20,6 +20,10 @@ export const adminRouter = {
       component: () => import('../views/admin/product/Product.vue'),
     },
     {
+      path: 'order',
+      component: () => import('../views/admin/order/Order.vue'),
+    },
+    {
       path: 'chat',
       component: () => import('../views/admin/chat/Chat.vue'),
     },

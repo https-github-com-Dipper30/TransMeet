@@ -1,6 +1,7 @@
 import { ElMessage } from 'element-plus'
 // import { errCode } from '../config/index.ts'
 import router from '../router'
+import moment from 'moment'
 
 /**
  * check if the result from request is instance of Error
@@ -87,6 +88,15 @@ export const getUnixTimeStamp = (date) => {
 
 export const getTimeStamp = (date) => {
   return date ? new Date(date).getTime() : new Date().getTime()
+}
+
+/**
+ * convert timestamp into string
+ */ 
+export const formatTS = (ts) => {
+  if (!ts || typeof ts != 'number') return ''
+  if (ts.toString().length == 10) return moment(ts*1000).format('YYYY-MM-DD HH:mm:ss')
+  return moment(ts).format('YYYY - MM - DD hh:mm:ss')
 }
 
  // get height and width of viewport

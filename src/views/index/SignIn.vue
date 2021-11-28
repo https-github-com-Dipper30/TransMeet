@@ -54,13 +54,14 @@ export default {
       }
       const res = await login(p)
       this.loginLock = false
-      if(!handleResult(res, true, 'Welcome Back!')) return
+      if(!handleResult(res, true, 'Welcome!')) return
       const { token, user } = res.data
+      console.log(user)
       this.$store.commit('setToken', token)
       this.$store.commit('setUser', user)
       const { auth } = user
       localStorage.setItem('token', token)
-      localStorage.setItem('userId', user.id)
+      localStorage.setItem('userId', user.uid)
       if (auth.includes(access.LOG_IN_ADMIN)) {
         // go to admin, open in new page
         let routeData = this.$router.resolve({

@@ -2,6 +2,8 @@ export default {
   search: 'Search',
   home: 'Home',
   cart: 'Cart',
+  highlyRated: 'Highly Rated Products',
+  hotSale: 'Hot Sales In Recent Month',
   menu: {
     logout: 'Sign Out',
     home: 'Home',

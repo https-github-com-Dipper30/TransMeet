@@ -73,7 +73,7 @@ export default {
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    margin: 0 auto;
+    margin: 20px auto;
     .item {
       display: flex;
       flex-direction: column;
@@ -93,7 +93,7 @@ export default {
             width: 100%;
             height: 4px;
             content: '';
-            z-index: -1;
+            z-index: 1;
             border-radius: 30px;
             left: 50%;
             top: 18px;

@@ -31,8 +31,10 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
+  console.log('1', to)
   if (to.meta && to.meta.needAdminAuth) {
     let auth
+    console.log('2')
     const user = store.getters.getUser
     if (user) auth = user.auth
     else {
@@ -43,6 +45,7 @@ router.beforeEach(async (to, from, next) => {
     else next()
   }
   if (to.meta?.needLogin) {
+    console.log('3')
     const user = store.getters.getUser
     if (!user) {
       const token = localStorage.getItem('token')

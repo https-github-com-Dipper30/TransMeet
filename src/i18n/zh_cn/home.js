@@ -2,6 +2,8 @@ export default {
   search: '搜索',
   home: '主页',
   cart: '购物车',
+  highlyRated: '好评商品',
+  hotSale: '近月热销',
   menu: {
     logout: '登出',
     home: '主页',

@@ -37,7 +37,7 @@ export const actions = {
     let user = store.getters.getUser
     if (!user) return
     const { getCartItems } = api
-    const res = await getCartItems({ uid: user.id })
+    const res = await getCartItems({ uid: user.uid })
     if (!handleResult(res, false)) return
     store.commit('setCartItems', res.data.rows)
   },

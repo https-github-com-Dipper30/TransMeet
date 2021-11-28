@@ -63,7 +63,7 @@ export const getStatesOptions = async () => {
  * @param {Boolean} format if the result data needs formation
  * @returns 
  */
- export const getStores = async (p, format = false) => {
+export const getStores = async (p, format = false) => {
   const res = await get('/stores', p)
   if (!handleResult(res, false)) return
   // const { data } = res
@@ -71,6 +71,14 @@ export const getStatesOptions = async () => {
   // if (format && rows) rows = rows.map(r => ({ ...r, job2String: jobToString[r.job_title] }))
   // res.data.rows = rows
   return res
+}
+
+export const getStoreOptions = async (p, format = false) => {
+  const res = await get('/stores', p)
+  if (!handleResult(res, false)) return
+  const { data } = res
+  const options = [{ label: 'All', value: null }, ...data.map(({ name, id }) => ({ value: id, label: name }))]
+  return options
 }
 
 export const setManager = async (p) => {
@@ -118,9 +126,23 @@ export const getProducts = async (p, format = true) => {
   if (!handleResult(res, false)) return
   const { data } = res
   let { rows } = data
-  if (format && rows) rows = rows.map(r => ({ ...r, listed: Boolean(r.listTS != null) }))
+  if (format && rows) rows = rows.map(r => ({ ...r, listed: Boolean(r.listTS != null), avgRate: r.Ratings?.length > 0 ? Math.round(r.Ratings.reduce((prev, cur) => prev + cur.value, 0) / r.Ratings.length) : 0 }))
   res.data.rows = rows
   return res
+}
+
+/**
+ * get recommended products, type can be either 'sold' or 'rate'
+ * @param {type: string} p 
+ * @param {boolean} format if requires formatting, default by true 
+ * @returns 
+ */
+export const getRecommendedProducts = async (p, format = true) => {
+  const res = await get('/recommend', p)
+  if (!handleResult(res, false)) return []
+  let { data } = res
+  if (format && data) data = data.map(r => ({ ...r, listed: Boolean(r.listTS != null), avgRate: r.Ratings?.length > 0 ? Math.round(r.Ratings.reduce((prev, cur) => prev + cur.value, 0) / r.Ratings.length) : 0 })) 
+  return data
 }
 
 export const getProductImg = async (p) => {
@@ -134,6 +156,10 @@ export const getProductImg = async (p) => {
  */
 export const listProduct = async (p) => {
   return post('/list', p)
+}
+
+export const listAllProducts = async () => {
+  return post('/listAll')
 }
 
 /**
@@ -187,6 +213,14 @@ export const placeOrder = async (p) => {
   return post('/placeOrder', p)
 }
 
-export const getHistoryOrders = async (p) => {
-  return post('/orders', p)
+export const getOrders = async (p) => {
+  return get('/orders', p)
+}
+
+/**
+ * rate an order
+ * @param { uid: number, oid: string, rate: number } p
+ */
+export const rateOrder = async (p) => {
+  return post('rateOrder', p)
 }

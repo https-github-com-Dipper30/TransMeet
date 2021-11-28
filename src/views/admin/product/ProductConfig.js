@@ -1,3 +1,5 @@
+import { formatTS } from '../../../utils'
+
 export default {
   searchBox: [
     {
@@ -84,6 +86,10 @@ export default {
     title: 'Product Table',
     buttons: [
       {
+        label: 'List All Products',
+        eventName: 'onClickListAll',
+      },
+      {
         label: 'Add Product',
         eventName: 'onClickAddProduct',
       },
@@ -114,6 +120,12 @@ export default {
         slot: (row) => `${(row.price / 100).toFixed(2)} $ / ${row.unit}`,
       },
       {
+        label: 'Review',
+        prop: 'avgRate',
+        slot: (row) => row.avgRate == 0 ? 'Not Reviewed' : row.avgRate,
+        width: 150,
+      },
+      {
         label: 'Category',
         prop: 'Category.name',
         width: 150,
@@ -126,10 +138,12 @@ export default {
       {
         label: 'Create Time',
         prop: 'createTS',
+        slot: (row) => formatTS(row.createTS),
       },
       {
         label: 'List Time',
         prop: 'listTS',
+        slot: (row) => row.listTS ? formatTS(row?.listTS) : '-',
       },
       {
         label: 'Options',

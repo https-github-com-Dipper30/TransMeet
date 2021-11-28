@@ -59,7 +59,7 @@
       <div class="title"> {{ config.operation.title }} </div>
       <div class="operation">
         <span />
-        <t-button v-for="button of config.operation.buttons" :key="button.label" @onClick="submitEvent(button.eventName)"> {{ button.label }}</t-button>
+        <t-button class="operation-btn" v-for="button of config.operation.buttons" :key="button.label" @onClick="submitEvent(button.eventName)"> {{ button.label }}</t-button>
       </div>
     </panel>
     <!-- operation and title ends -->
@@ -361,11 +361,14 @@ export default {
       font-weight: 600;
       font-size: 20px;
     }
-    .operations {
+    .operation {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: flex-end;
+      .operation-btn {
+        margin-left: 20px;
+      }
     }
   }
   .table-panel {

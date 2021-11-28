@@ -1,8 +1,6 @@
 <template>
   <admin-layout>
-    <keep-alive>
-      <router-view />
-    </keep-alive>
+    <router-view />
   </admin-layout>
 </template>
 

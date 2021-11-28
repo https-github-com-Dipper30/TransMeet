@@ -116,7 +116,7 @@ export default {
       const user = this.$store.getters.getUser
       const { addToCart, isInCart: isInCartAPI } = api
       const p = {
-        uid: user.id,
+        uid: user.uid,
         pid: this.product.id,
         sid: this.store || this.storeOptions[0]?.value || null,
         amount: this.productAmount,
@@ -132,7 +132,6 @@ export default {
       // console.log(this.storeIDs)
     },
     onPurchase () {
-      console.log('purchase', this.store, this.productAmount)
       if (!user.auth.includes(access.BUY_PRODUCTS)) {
         const m = this.$i18n.locale == 'en' ? 'Sorry, you are not authorized to buy products.' : '非常抱歉，您并没有购买权限'
         this.$message({
@@ -195,6 +194,7 @@ export default {
     const product = await getProducts(p)
     if (!handleResult(product, false)) this.product = null
     else this.product = product.data.rows[0]
+
     nextTick(() => {
       if (this.product.imgList?.length > 0) {
         const img = this.product.imgList[0]
@@ -203,7 +203,6 @@ export default {
       }
       this.checkIfIsInCart()
     })
-    console.log(this.product.Stores)
     const stores = this.product.Stores
     if (!stores || stores.length == 0) {
       this.$message({

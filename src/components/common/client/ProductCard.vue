@@ -1,7 +1,7 @@
 <template>
   <div class="product-card">
     <div class="img">
-      <img :id="product.id" src="@/assets/bg.jpeg" alt="">
+      <img :id="`${product.id}${ts}`" src="@/assets/bg.jpeg" alt="">
     </div>
     <div class="product-panel">
       <div class="p-name">
@@ -13,14 +13,28 @@
       <div class="p-description">
         {{ product.description }}
       </div>
+      <div class="review">
+        <rate :rate="product.avgRate" :disabled="true" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Rate from '../../../views/client/order/Rate.vue'
+import { getTimeStamp } from '../../../utils'
+
 export default {
   name: 'ProductCard',
   props: ['product'],
+  components: {
+    Rate,
+  },
+  data () {
+    return {
+      ts: 0,
+    }
+  },
   watch: {
     product: {
       deep: true,
@@ -32,10 +46,15 @@ export default {
       },
     },
   },
+  methods: {
+  },
+  created () {
+    this.ts = getTimeStamp()
+  },
   mounted () {
     if (this.product.imgList) {
       const img = this.product.imgList[0]
-      document.getElementById(this.product.id).src = `data:image/${img.type};base64,${img.data}`
+      document.getElementById(`${this.product.id}${this.ts}`).src = `data:image/${img.type};base64,${img.data}`
     }
   },
 }
@@ -44,13 +63,13 @@ export default {
 <style lang="scss" scoped>
 .product-card {
   width: 200px;
-  height: 315px;
+  height: 335px;
   border: 1px solid #f8f8f8;
   border-radius: 10px;
   position: relative;
   font-family: 'Roboto', Helvetica, Arial;
   color: #333;
-  margin: 20px 10px;
+  margin: 20px 13px;
   background-color: #fff;
   .img {
     position: absolute;
@@ -68,7 +87,7 @@ export default {
     position: absolute;
     top: 200px;
     width: 200px;
-    height: 115px;
+    height: 135px;
     .p-name {
       position: absolute;
       /* left: 8px;
@@ -109,20 +128,19 @@ export default {
     .p-description {
       position: absolute;
       top: 65px;
-      height: 60px;
-      line-height: 30px;
+      width: 200px;
+      height: 40px;
+      line-height: 20px;
       text-overflow: ellipsis;
       padding: 0 5px;
       font-size: 13px;
       text-align: left;
       box-sizing: border-box;
     }
-    .p-buy {
+    .review {
       position: absolute;
-      top: 120px;
-      width: 200px;
-      padding: 0 5px;
-      height: 60px;
+      top: 105px;
+      height: 30px;
     }
   }
 }

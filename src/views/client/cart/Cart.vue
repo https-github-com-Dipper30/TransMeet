@@ -63,10 +63,8 @@ export default {
   methods: {
     async fetchCartData (uid) {
       uid = uid || this.id
-      const { getCartItems } = api
-      const cartItems = await getCartItems({ uid })
-      if (!handleResult(cartItems, false)) return
-      this.cartItems = cartItems.data.rows
+      await this.$store.dispatch('actCart')
+      this.cartItems = this.$store.getters.getCartItems
       nextTick(() => {
         this.findSelected()
         this.calculateTotalPrice()

@@ -1,5 +1,5 @@
 <template>
-  <div class="product">
+  <div class="order">
     <t-bread-crumb :config="breadConfig"></t-bread-crumb>
     <t-admin-table ref="staffTable"
       :config="config"
@@ -37,55 +37,22 @@
         </el-button>
       </template>
     </t-admin-table>
-    <t-dialog ref="picDialog" title="Product Details" width="600px" :showCancel="false"
-      confirmText="OK"
-      @onConfirm="setPicHidden"
-      @clearData="clearPicData">
-      <div v-if="availableStores.length > 0">
-        <span class="store-title"> Avaible In Following Stores: </span>
-        <div class="store">
-          <span class="id"> Store ID </span>
-          <span class="name"> Store Name </span>
-        </div>
-        <div class="store" v-for="store of availableStores" :key="store.name">
-          <span class="id"> {{ store.id }} </span>
-          <span class="name"> {{ store.name }} </span>
-        </div>
-      </div>
-      <div class="imgList" v-if="imgList && imgList.length > 0">
-        <div class="img" v-for="(img, index) of imgList" :key="index">
-          <img :src="`data:image/${img.type};base64,${img.data}`" alt="img" />
-        </div>
-      </div>
-      <t-empty v-if="availableStores.length == 0 && imgList.length == 0" />
-    </t-dialog>
-
-    <add-product-dialog ref="dialog"></add-product-dialog>
-    <!-- list product and select stores -->
-    <list-dialog ref="listDialog" @fetchData="fetchData" />
-    <update-dialog ref="updateDialog" @fetchData="fetchData" />
   </div>
 </template>
 
 <script>
 import TAdminTable from '../../../components/common/admin/TTable.vue'
-import productConfig from './ProductConfig.js'
+import orderConfig from './OrderConfig.js'
 import api from '../../../request'
 import { Search, Edit, Check, Message, Star, Delete } from '@element-plus/icons'
 import TBreadCrumb from '../../../components/common/admin/TBreadCrumb.vue'
-import AddProductDialog from './AddProductDialog.vue'
 import TDialog from '../../../components/common/TDialog.vue'
 import TEmpty from '../../../components/common/TEmpty.vue'
 import { handleResult } from '../../../utils'
-import ListDialog from './ListDialog.vue'
-import UpdateDialog from './UpdateProductDialog.vue'
 
 export default {
   components: {
     TAdminTable,
-    AddProductDialog,
-    TDialog,
-    TEmpty,
     // eslint-disable-next-line vue/no-unused-components
     // Star,
     // eslint-disable-next-line vue/no-unused-components
@@ -93,13 +60,11 @@ export default {
     Search,
     Edit,
     TBreadCrumb,
-    ListDialog,
-    UpdateDialog,
   },
   data () {
     const breadConfig = [
       { name: 'Home', to: '/admin' },
-      { name: 'Product' },
+      { name: 'Order' },
     ]
     return {
       config: {},
@@ -113,24 +78,18 @@ export default {
   },
   methods: {
     async fetchData (p) {
-      if (this.sortDesc == true || this.sortDesc == false) {
-        p = p ? p : {}
-        p = { ...p, sort: this.sort }
-      }
-      const { getProducts } = api
-      const res = await getProducts(p)
+      // if (this.sortDesc == true || this.sortDesc == false) {
+      //   p = p ? p : {}
+      //   p = { ...p, sortDesc: this.sortDesc }
+      // }
+      const { getOrders } = api
+      const res = await getOrders(p)
       const { count, rows } = res.data
       this.tableData = rows
       this.total = count
     },
     onClickAddProduct () {
       this.$refs['dialog'].setVisible()
-    },
-    // list all products to all stores
-    async onClickListAll () {
-      const { listAllProducts } = api
-      const res = await listAllProducts()
-      if(!handleResult(res, true, 'All Listed')) return
     },
     async onCheckImg (scope) {
       const { getProductImg } = api
@@ -187,11 +146,11 @@ export default {
       if (prop == 'unitPrice') {
         switch (order) {
           case 'ascending':
-            this.sort = 'price'
+            this.sortDesc = false
             this.fetchData()
             break
           case 'descending':
-            this.sort = 'price_desc'
+            this.sortDesc = true
             this.fetchData()
             break
           default:
@@ -199,13 +158,13 @@ export default {
             this.fetchData()
         }
       } else {
-        this.sort = null
+        this.sortDesc = null
         this.fetchData()
       }
     },
   },
   created () {
-    this.config = productConfig
+    this.config = orderConfig
   },
 }
 </script>
