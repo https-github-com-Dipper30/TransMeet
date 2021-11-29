@@ -222,5 +222,14 @@ export const getOrders = async (p) => {
  * @param { uid: number, oid: string, rate: number } p
  */
 export const rateOrder = async (p) => {
-  return post('rateOrder', p)
+  return post('/rateOrder', p)
+}
+
+/**
+ * search products
+ * @param { search: string } p 
+ * @returns an array of products
+ */
+export const searchProduct = async (p) => {
+  return get('/product', p)
 }

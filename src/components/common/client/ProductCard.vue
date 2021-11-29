@@ -39,7 +39,7 @@ export default {
     product: {
       deep: true,
       handler: function (newValue, oldValue) {
-        if (newValue.imgList) {
+        if (newValue.imgList.length > 0) {
           const img = newValue.imgList[0]
           document.getElementById(newValue.id).src = `data:image/${img.type};base64,${img.data}`
         }
@@ -94,13 +94,14 @@ export default {
       top: 5px; */
       color: #333;
       font-size: 20px;
-      letter-spacing: 0.1rem;
+      /* letter-spacing: 0.1rem; */
       width: 200px;
       top: 10px;
       padding: 0 5px;
       height: 30px;
       line-height: 30px;
-      text-overflow: ellipsis;
+      /* text-overflow: ellipsis; */
+      overflow: hidden;
       text-align: left;
       font-weight: 600;
       box-sizing: border-box;

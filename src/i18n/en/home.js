@@ -4,6 +4,11 @@ export default {
   cart: 'Cart',
   highlyRated: 'Highly Rated Products',
   hotSale: 'Hot Sales In Recent Month',
+  sort: {
+    default: 'Default Sort',
+    ascend: 'Sort By Ascending Price',
+    desc: 'Sort By Descending Price', 
+  },
   menu: {
     logout: 'Sign Out',
     home: 'Home',

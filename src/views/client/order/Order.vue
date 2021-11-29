@@ -1,5 +1,6 @@
 <template>
   <div id="order">
+    <t-title :title="$t('home.menu.order')" />
     <div class="list" v-if="!empty">
       <order-item v-for="order of orders" :key="order.id" :item="order" />
     </div>
@@ -12,11 +13,13 @@ import { getWindowPath, handleResult } from '../../../utils'
 import api from '../../../request'
 import TEmpty from '../../../components/common/TEmpty.vue'
 import OrderItem from './OrderItem.vue'
+import TTitle from '../../../components/common/client/TTitle.vue'
 
 export default {
   components: {
     TEmpty,
     OrderItem,
+    TTitle,
   },
   data () {
     return {
@@ -34,11 +37,10 @@ export default {
     async fetchOrderData () {
       const { getOrders } = api
       const res = await getOrders({ uid: this.uid })
-      if (!handleResult(res), false) return
+      if (!handleResult(res, false)) return
       const { count, rows } = res.data
       this.orders = rows
       this.count = count
-      console.log(res)
     },
   },
   created () {

@@ -93,9 +93,7 @@ export default {
     },
     completeAccount (account) {
       this.form = { ...this.form, ...account }
-      console.log(this.form)
       this.currentProgress = this.currentProgress + 1 // continue to next page
-      console.log('roleid', this.b, this.p3)
     },
     async completeInfo (form) {
       this.form = { ...this.form, ...form }
@@ -146,10 +144,13 @@ export default {
     top: 180px;
   }
   &.p3 {
-    height: 535px;
-    top: 120px;
+    height: 555px;
+    top: 100px;
     &.b {
-      height: 475px;
+      height: 555px;
+      .sign-up-content.role-info {
+        height: auto;
+      }
     }
   }
   .cancel {
@@ -197,7 +198,6 @@ export default {
     }
   }
   .content {
-    overflow: hidden;
     position: absolute;
     width: 1380px;
     transition: 0.3s;
@@ -218,7 +218,7 @@ export default {
       justify-content: space-between;
       align-items: center;
       width: 385px;
-      margin-top: 30px;
+      margin-top: 5px;
     }
 
     &.p1 {
@@ -229,6 +229,8 @@ export default {
     }
     &.p3 {
       margin-left: -920px;
+      overflow: scroll;
+      height: 550px;
     }
   }
   /* .content {

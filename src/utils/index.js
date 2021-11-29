@@ -93,10 +93,10 @@ export const getTimeStamp = (date) => {
 /**
  * convert timestamp into string
  */ 
-export const formatTS = (ts) => {
+export const formatTS = (ts, form = 'YYYY-MM-DD HH:mm:ss') => {
   if (!ts || typeof ts != 'number') return ''
-  if (ts.toString().length == 10) return moment(ts*1000).format('YYYY-MM-DD HH:mm:ss')
-  return moment(ts).format('YYYY - MM - DD hh:mm:ss')
+  if (ts.toString().length == 10) return moment(ts*1000).format(form)
+  return moment(ts).format(form)
 }
 
  // get height and width of viewport

@@ -44,11 +44,11 @@
         <div class="product-options">
           <t-button v-if="!isInCart" class="cart-btn" @onClick="addToCart"> <span class="add-icon"></span> {{ $t('product.addToCart') }} </t-button>
           <t-button v-else>in cart</t-button>
-          <t-button @onClick="onPurchase" :disabled="!itemAvailable"> {{ $t('product.buy') }} </t-button>
+          <!-- <t-button @onClick="onPurchase" :disabled="!itemAvailable"> {{ $t('product.buy') }} </t-button> -->
         </div>
       </div>
     </div>
-    <div class="recommend">
+    <div class="recommend" v-if="recommendation.length > 0">
       <div class="title">
         {{ $t('product.recommend') }}
       </div>
@@ -145,7 +145,7 @@ export default {
       const user = this.$store.getters.getUser
       const { isInCart: isInCartAPI } = api
       const isInCart = await isInCartAPI({
-        uid: user.id,
+        uid: user.uid,
         pid: this.product.id,
         sid: this.store || this.storeOptions[0]?.value || null,
       })

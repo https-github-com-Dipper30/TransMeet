@@ -29,3 +29,15 @@ export const loginByToken = () => {
   return http.post('/token')
 }
 
+export const updateUserInfo = (p) => {
+  return http.post('/updateUserInfo', p)
+}
+
+/**
+ * get user info by id
+ * @param { uid: number } p 
+ */
+export const getUserInfo = (p) => {
+  return get('/userInfo', p)
+}
+

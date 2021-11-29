@@ -4,6 +4,11 @@ export default {
   cart: '购物车',
   highlyRated: '好评商品',
   hotSale: '近月热销',
+  sort: {
+    default: '默认排序',
+    ascend: '按价格正序',
+    desc: '按价格倒序', 
+  },
   menu: {
     logout: '登出',
     home: '主页',

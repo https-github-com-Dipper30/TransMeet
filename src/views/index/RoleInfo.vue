@@ -79,6 +79,22 @@
     </div>
     <div class="row">
       <div class="label">
+        Phone(+1 US):
+      </div>
+      <div class="input">
+        <el-input v-model="phone" placeholder="eg: 4128926072" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="label">
+        E-mail:
+      </div>
+      <div class="input">
+        <el-input v-model="email" placeholder="eg: abc@gmail.com" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="label">
         Annual Income:
       </div>
       <div class="input">
@@ -198,6 +214,8 @@ export default {
       marriageOptions,
       genderOptions,
       annualIncome: 10000,
+      phone: null,
+      email: '',
       state: null,
       city: null,
       street: '',
@@ -213,7 +231,7 @@ export default {
   },
   computed: {
     completed () {
-      const b = Boolean(this.state && this.city && this.street && this.zipCode && this.annualIncome)
+      const b = Boolean(this.state && this.city && this.street && this.zipCode && this.annualIncome && this.phone && this.email)
       if (this.roleID == role.HOME_CUSTOMER) return b && this.gender != null && this.birth && this.marriageStatus != null
       else return b && this.name && this.cate
     },
@@ -224,6 +242,14 @@ export default {
   methods: {
     register () {
       if (!this.completed) return
+      const [phoneValid, emailValid, errMsg] = this.checkParams(this.phone, this.email)
+      if (!phoneValid || !emailValid) {
+        this.$message({
+          message: errMsg,
+          type: 'error',
+        })
+        return
+      }
       this.annualIncome = parseInt(this.annualIncome)
       this.zipCode = parseInt(this.zipCode)
       if (!isNumber(this.annualIncome)) {
@@ -247,6 +273,8 @@ export default {
         zip_code: this.zipCode,
         annual_income: this.annualIncome,
         street: this.street,
+        phone: this.phone,
+        email: this.email,
       }
       if (this.roleID == role.HOME_CUSTOMER) {
         const home = {
@@ -263,6 +291,16 @@ export default {
         form = { ...common, ...business }
       }
       this.$emit('completeInfo', form)
+    },
+    checkParams () {
+      const emailExp = /^[0-9a-zA-Z_.-]+[@][0-9a-zA-Z_.-]+([.][a-zA-Z]+){1,2}$/
+      const phoneExp = /^[0-9]{10}/
+      const phoneValid = phoneExp.test(Number(this.phone))
+      const emailValid = emailExp.test(this.email)
+      let msg = 'Wrong'
+      if (!phoneValid && !emailValid) msg = 'Please check your phone number and email address'
+      else msg = `Please check your ${phoneValid == false ? 'phone number' : 'email address'}`
+      return [phoneValid, emailValid, msg]
     },
     goPrevious () {
       // debounce, cannot go back within 500 ms
@@ -308,7 +346,13 @@ export default {
 
 <style lang="scss">
 .sign-up-content {
+  box-sizing: border-box;
   &.role-info {
+    height: 600px;
+    box-sizing: border-box;
+    .options {
+      padding-bottom: 10px;
+    }
     .row {
       margin: 10px auto;
       .label {

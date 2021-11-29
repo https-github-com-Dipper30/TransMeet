@@ -32,5 +32,9 @@ export const clientRouter = {
       path: 'order',
       component: () => import('../views/client/order/Order.vue'),
     },
+    {
+      path: 'account',
+      component: () => import('../views/client/account/Account.vue'),
+    },
   ],
 }

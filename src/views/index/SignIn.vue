@@ -28,7 +28,6 @@ export default {
     TButton,
   },
   props: {
-
   },
   data () {
     return {

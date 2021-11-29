@@ -2,21 +2,71 @@
   <div class="search-box" @keypress.enter="onSearch">
     <img src="../../../assets/common/search.png" alt="" @click.prevent="onSearch">
     <input v-model="searchInput" class="search-input" type="text" />
+    <div id="result" @click="showResult = false" v-if="showResult">
+      <t-empty v-if="empty" />
+      <div class="list" v-else>
+        <product-card v-for="item of result" :key="item.id" :product="item" @click.stop="onProductDetail(item.id)"></product-card>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import api from '../../../request'
+import { handleResult } from '../../../utils'
+import TEmpty from '../TEmpty.vue'
+import ProductCard from './ProductCard.vue'
+
 export default {
+  components: {
+    TEmpty,
+    ProductCard,
+  },
   data () {
     return {
       searchInput: '',
+      lock: false,
+      showResult: false,
+      result: [],
     }
   },
-  methods: {
-    onSearch () {
-      console.log('search: ', this.searchInput)
+  computed: {
+    empty () {
+      return this.result.length == 0
     },
   },
+  watch: {
+    showResult (newValue, oldValue) {
+      const mo = function (e) {
+        e.preventDefault()
+      }
+      if (newValue == true) {
+        // document.addEventListener('onScroll', mo, false) // 禁止页面滑动
+      } else {
+        // document.removeEventListener('onScroll', mo, false)
+      }
+    },
+  },
+  methods: {
+    async onSearch () {
+      if (this.lock) return
+      this.lock = true
+      const { searchProduct } = api
+      const result = await searchProduct({ search: this.searchInput })
+      this.lock = false
+      this.showResult = true
+      if (!handleResult(result, false)) {
+        this.result = []
+        return
+      }
+      this.result = result.data
+    },
+    onProductDetail (pid) {
+      if (!pid) return
+      window.open(`/product/${pid}`, '_blank')
+    },
+  },
+  
 }
 </script>
 
@@ -47,6 +97,26 @@ export default {
     line-height: 28px;
     font-size: 20px;
     color: #333;
+  }
+  #result {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    height: calc(100vh - 50px);
+    width: calc(100vw);
+    background: url('../../../assets/avatar/default-avatar4.jpeg') no-repeat;
+    opacity: 0.9;
+    background-size: 100%;
+    .list {
+      width: 1140px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      .product-card {
+        cursor: pointer;
+      }
+    }
   }
 }
 </style>

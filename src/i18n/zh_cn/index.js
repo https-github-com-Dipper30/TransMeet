@@ -1,8 +1,9 @@
 import login from './login'
 import home from './home'
 import product from './product'
-import cart from './cart.js'
-import order from './order.js'
+import cart from './cart'
+import order from './order'
+import account from './account'
 
 export default {
   login,
@@ -10,4 +11,5 @@ export default {
   product,
   cart,
   order,
+  account,
 }

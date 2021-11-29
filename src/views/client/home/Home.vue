@@ -1,11 +1,24 @@
 <template>
   <div class="home">
+    <t-title :title="$t('home.menu.home')" />
     <!-- Welcome Home! -->
     <!-- <div class="bg"></div> -->
     <category-menu @selectCate="onCateChange" />
     <type-bar :cate="cate" @selectType="onTypeChange" />
 
     <t-empty v-if="isEmpty" />
+    <div class="sort" v-if="cate!=0 && products.length>0">
+      <el-select v-model="sort" @change="onSort" :placeholder="sortText">
+        <el-option
+          v-for="item in sortOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+        </el-option>
+      </el-select>
+    </div>
+    
     <div class="list" v-if="cate!=0 && products.length>0">
       <product-card v-for="product of products" :key="product.id" :product="product" class="product-card" @click="checkProductDetail(product.id)" />
     </div>
@@ -35,6 +48,8 @@ import TypeBar from './TypeBar.vue'
 import api from '../../../request'
 import TEmpty from '../../../components/common/TEmpty.vue'
 import ProductCard from '../../../components/common/client/ProductCard.vue'
+import TTitle from '../../../components/common/client/TTitle.vue'
+import { ArrowDown } from '@element-plus/icons'
 
 export default {
   name: 'Home',
@@ -43,19 +58,42 @@ export default {
     TypeBar,
     TEmpty,
     ProductCard,
+    TTitle,
   },
   data () {
+    const sortOptions = [
+      {
+        value: 1,
+        label: this.$t('home.sort.default'),
+      },
+      {
+        value: 2,
+        label: this.$t('home.sort.ascend'),
+      },
+      {
+        value: 3,
+        label: this.$t('home.sort.desc'),
+      },
+    ]
     return {
       cate: 0,
       type: 0,
       products: [],
       hotSale: [],
       highlyRated: [],
+      sort: 1,
+      sortOptions,
     }
   },
   computed: {
     isEmpty () {
       return this.cate != 0 && this.products.length == 0
+    },
+    sortMethod () {
+      return this.sort == 1 ? null : (this.sort == 2 ? 'price' : 'price_desc')
+    },
+    sortText () {
+      return this.sort == 1 ? this.$t('home.sort.default') : (this.sort == 2 ? this.$t('home.sort.ascend') : this.$t('home.sort.desc'))
     },
   },
   methods: {
@@ -72,20 +110,24 @@ export default {
     async onTypeChange (type) {
       if (this.type == type) return
       this.type = type
-      const { getProducts } = api
+      this.getProducts()
+    },
+    checkProductDetail (pid) {
+      if (!pid) return
+      window.open(`/product/${pid}`, '_blank')
+    },
+    async getProducts () {
+      const { getProducts: getProductsApi } = api
       const p = {
         listed: true,
         type: this.type,
         cate: this.cate,
         showStores: false,
         pic: true,
+        sort: this.sortMethod,
       }
-      const res = await getProducts(p)
+      const res = await getProductsApi(p)
       this.products = res.data.rows
-    },
-    checkProductDetail (pid) {
-      if (!pid) return
-      window.open(`/product/${pid}`, '_blank')
     },
     async getRecommend () {
       const { getRecommendedProducts } = api
@@ -95,9 +137,13 @@ export default {
       this.hotSale = hotSale || []
       this.highlyRated = highlyRated || []
     },
+    onSort (e) {
+      this.sort = e
+      this.getProducts()
+    },
   },
   mounted () {
-    
+    this.getRecommend()
   },
 }
 </script>
@@ -119,6 +165,17 @@ export default {
     margin: 0 auto;
     margin-top: 100px;
   }
+  .sort {
+    color: $super-dark-yellow;
+    display: block;
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-start;
+    text-align: left;
+    .el-select {
+      width: 220px;
+    }
+  }
   .content {
     width: 600px;
     height: 200px;
@@ -129,7 +186,7 @@ export default {
     color: $text-color;
   }
   .list {
-    margin-top: 50px;
+    margin-top: 30px;
     display: flex;
     flex-wrap: wrap;
     width: 100%;
@@ -142,7 +199,7 @@ export default {
     margin: 20px auto;
     .title {
       width: 100%;
-      text-align: left;
+      text-align: center;
       color: $super-dark-yellow;
       font-size: 19px;
       font-weight: 600;

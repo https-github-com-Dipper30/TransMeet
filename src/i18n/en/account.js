@@ -1,0 +1,15 @@
+export default {
+  userName: 'Username',
+  welcome: 'Welcome, {name}!',
+  street: 'Street',
+  city: 'City',
+  state: 'State',
+  zip: 'Zip Code',
+  income: 'Annual Income',
+  phone: 'Phone',
+  email: 'E-Mail',
+  gender: 'Gender',
+  birth: 'Birth',
+  bName: 'Business Name',
+  cate: 'Business Category',
+}

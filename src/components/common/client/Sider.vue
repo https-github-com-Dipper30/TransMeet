@@ -63,6 +63,7 @@ export default {
           this.toOrders()
           break
         case '3':
+          this.toAccount()
           break
         case '4':
           break
@@ -91,6 +92,17 @@ export default {
         return
       }
       this.$router.push(`/order?user=${id}`)
+    },
+    toAccount () {
+      const id = this.$store.getters.getUserID
+      if (!id) {
+        this.$message({
+          message: 'You are not logged in.',
+          type: 'error',
+        })
+        return
+      }
+      this.$router.push(`/account?user=${id}`)
     },
   },
   created () {
