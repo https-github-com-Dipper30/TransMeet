@@ -6,6 +6,7 @@
       :tableData="tableData"
       :total="total"
       @fetchData="fetchData"
+      @onClickListAll="onClickListAll"
       @onClickAddProduct="onClickAddProduct"
       @handleSort="handleSort"
     >
