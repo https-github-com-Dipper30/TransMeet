@@ -133,6 +133,7 @@ export default {
       height: 40px;
       line-height: 20px;
       text-overflow: ellipsis;
+      overflow: hidden;
       padding: 0 5px;
       font-size: 13px;
       text-align: left;
