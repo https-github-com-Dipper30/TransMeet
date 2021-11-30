@@ -345,7 +345,7 @@ export default {
     .list {
       width: 930px;
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       align-items: center;
       flex-wrap: wrap;
       .product-card {
