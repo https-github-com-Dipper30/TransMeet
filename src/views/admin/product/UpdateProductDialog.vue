@@ -112,7 +112,6 @@ export default {
     product2Update: {
       deep: true,
       handler: async function (newValue, oldValue) {
-        console.log('new', newValue)
         const { name, cate, type, price, unit, amount, description, id } = newValue
         this.form.cate = cate
         const { getTypeOptions } = api
@@ -137,7 +136,6 @@ export default {
       this.$refs['dialog'].setVisible()
     },
     setHidden () {
-      console.log('hide')
       this.$refs['uploader'].clearImgList()
       this.$refs['dialog'].setHidden()
       this.resetForm()

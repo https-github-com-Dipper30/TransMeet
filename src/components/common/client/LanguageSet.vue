@@ -38,7 +38,6 @@ export default {
   },
   methods: {
     switchLanguage (e) {
-      console.log(e)
       this.$i18n.locale = e
       localStorage.setItem('locale', e)
     },

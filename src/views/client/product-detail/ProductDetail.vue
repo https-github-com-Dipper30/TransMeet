@@ -112,7 +112,6 @@ export default {
   methods: {
     async addToCart () {
       if (this.cartLock || !this.itemAvailable) return
-      console.log('add to cart', this.$store.getters.getUser, this.product.id)
       const user = this.$store.getters.getUser
       const { addToCart, isInCart: isInCartAPI } = api
       const p = {
@@ -125,7 +124,6 @@ export default {
       const res = await addToCart(p)
       // added, renew vuex
       await this.$store.dispatch('actCart')
-      console.log(this.$store.state.cartItems)
       this.cartLock = false
       if (!handleResult(res)) return
       this.checkIfIsInCart()
@@ -168,7 +166,6 @@ export default {
   },
   async created () {
     const { pathname } = window.location
-    console.log(pathname)
     const reg = /^\/(product)\/(\d+$)/g
     const r = reg.test(pathname)
     if (!r) this.product = null

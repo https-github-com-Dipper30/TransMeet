@@ -6,4 +6,10 @@ export default {
   state: '州',
   zip: '邮编',
   income: '年收入',
+  phone: '联系电话',
+  email: '电子邮箱',
+  gender: '性别',
+  birth: '生日',
+  bName: '企业名称',
+  cate: '企业类别',
 }

@@ -112,7 +112,6 @@ export default {
         return true
       })
       const selectedList = this.checkedItems.filter(item => !commonList.includes(item))
-      console.log('removed: ', removedList, 'added: ', selectedList)
       return [selectedList, removedList]
     },
     calculateTotalPrice () {

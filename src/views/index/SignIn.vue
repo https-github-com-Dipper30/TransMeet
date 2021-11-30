@@ -55,7 +55,6 @@ export default {
       this.loginLock = false
       if(!handleResult(res, true, 'Welcome!')) return
       const { token, user } = res.data
-      console.log(user)
       this.$store.commit('setToken', token)
       this.$store.commit('setUser', user)
       const { auth } = user

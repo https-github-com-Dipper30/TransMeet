@@ -72,7 +72,6 @@ export default {
           break
         default: return
       }
-      console.log(e.target.dataset.menuid)
     },
     onSignOut () {
       this.$store.commit('setUser', null)

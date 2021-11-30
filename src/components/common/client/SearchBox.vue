@@ -104,8 +104,8 @@ export default {
     left: 0;
     height: calc(100vh - 50px);
     width: calc(100vw);
-    background: url('../../../assets/avatar/default-avatar4.jpeg') no-repeat;
-    opacity: 0.9;
+    background: url('../../../assets/blbl.jpg') no-repeat;
+    /* opacity: 0.9; */
     background-size: 100%;
     .list {
       width: 1140px;

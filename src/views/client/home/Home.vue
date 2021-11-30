@@ -133,7 +133,6 @@ export default {
       const { getRecommendedProducts } = api
       const hotSale = await getRecommendedProducts({ type: 'sold' })
       const highlyRated = await getRecommendedProducts({ type: 'rate' })
-      console.log(hotSale, highlyRated)
       this.hotSale = hotSale || []
       this.highlyRated = highlyRated || []
     },

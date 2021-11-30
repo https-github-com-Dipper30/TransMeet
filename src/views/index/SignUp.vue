@@ -116,7 +116,6 @@ export default {
     },
   },
   mounted () {
-    console.log('form', this.form)
   },
 }
 </script>

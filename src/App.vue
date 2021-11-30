@@ -6,7 +6,6 @@
 export default {
   mounted () {
     const locale = localStorage.getItem('locale')
-    console.log('locale', locale)
     if (locale) this.$i18n.locale = locale
   },
 }

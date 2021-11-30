@@ -267,7 +267,6 @@ export default {
       const tablePanel = document.getElementsByClassName('table-panel')
       const tp = tablePanel[0]
       if (!tp) return
-      console.log('resize')
       const offSetTop = tp?.getBoundingClientRect()?.top || 0
       const windowHeight = getWindowHeight()
       tp.style.height = `${windowHeight - offSetTop - 20}px`

@@ -345,7 +345,6 @@ export default {
     async onUpdate () {
       if (this.lock) return
       this.lock = true
-      console.log(this.role, this.form)
       const { updateUserInfo, getUserInfo } = api
       const res = await updateUserInfo({ ...this.form,
         uid: this.uid,
@@ -353,7 +352,6 @@ export default {
         annual_income: this.form.annual_income * 100,
         role_id: this.user.role_id,
       })
-      console.log(res)
       this.lock = false
       if (!handleResult(res, true, 'Updated')) return
       const user = await getUserInfo({ uid: this.uid })
@@ -363,8 +361,6 @@ export default {
       nextTick(() => {
         this.editing = false
       })
-       
-      console.log(this.user, this.$store.state.user)
     },
   },
   async created () {

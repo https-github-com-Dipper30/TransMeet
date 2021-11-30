@@ -105,7 +105,6 @@ export default {
       // this.setHidden()
     },
     async onListProduct (sid) {
-      console.log(this.productID, sid)
       if (this.lock) {
         this.$message({
           message: 'Processing...',

@@ -38,7 +38,6 @@ export default {
       return this.showCancel
     },
     computeShowConfirm () {
-      console.log(this.showConfirm)
       return this.showConfirm
     },
   },
