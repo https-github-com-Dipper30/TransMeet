@@ -13,7 +13,6 @@
 
 <script>
 import api from '../../../request'
-import { handleResult } from '../../../utils'
 import TEmpty from '../TEmpty.vue'
 import ProductCard from './ProductCard.vue'
 
@@ -55,11 +54,7 @@ export default {
       const result = await searchProduct({ search: this.searchInput })
       this.lock = false
       this.showResult = true
-      if (!handleResult(result, false)) {
-        this.result = []
-        return
-      }
-      this.result = result.data
+      this.result = result
     },
     onProductDetail (pid) {
       if (!pid) return

@@ -233,7 +233,7 @@ export const rateOrder = async (p) => {
 export const searchProduct = async (p) => {
   const res = await get('/product', p)
   const { data } = res
-  if (!handleResult(res, false)) return
+  if (!handleResult(res, false)) return []
   return data.map(r => ({ ...r, listed: Boolean(r.listTS != null), avgRate: r.Ratings?.length > 0 ? Math.round(r.Ratings.reduce((prev, cur) => prev + cur.value, 0) / r.Ratings.length) : 0 }))
 }
 
