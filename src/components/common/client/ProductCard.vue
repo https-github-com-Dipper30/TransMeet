@@ -41,7 +41,9 @@ export default {
       handler: function (newValue, oldValue) {
         if (newValue?.imgList?.length > 0) {
           const img = newValue.imgList[0]
-          document.getElementById(newValue.id).src = `data:image/${img.type};base64,${img.data}`
+          const i = document.getElementById(`${this.product.id}${this.ts}`)
+          if (!i) return
+          i.src = `data:image/${img.type};base64,${img.data}`
         }
       },
     },
@@ -54,7 +56,9 @@ export default {
   mounted () {
     if (this.product.imgList) {
       const img = this.product.imgList[0]
-      document.getElementById(`${this.product.id}${this.ts}`).src = `data:image/${img.type};base64,${img.data}`
+      const i = document.getElementById(`${this.product.id}${this.ts}`)
+      if (!i) return
+      i.src = `data:image/${img.type};base64,${img.data}`
     }
   },
 }
