@@ -13,7 +13,7 @@
         Password:
       </div>
       <div class="input">
-        <el-input class="in" placeholder="Password should be at least 6-digit long" v-model="password"></el-input>
+        <el-input class="in" placeholder="Password should be at least 6-digit long" v-model="password" show-password></el-input>
       </div>
     </div>
     <div class="options">
