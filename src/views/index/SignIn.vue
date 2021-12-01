@@ -8,7 +8,7 @@
     </div>
     <div class="row">
       <div class="label">Password</div>
-      <div class="i"><el-input v-model="password" @keypress.enter="onLogIn" placeholder="Please input password" /></div>
+      <div class="i"><el-input v-model="password" @keypress.enter="onLogIn" placeholder="Please input password" show-password /></div>
     </div>
     <div class="options">
       <t-button type="light" class="fgt">Forget your account?</t-button>
