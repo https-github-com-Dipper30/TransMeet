@@ -157,7 +157,7 @@ export default {
     async fetchRecommendation () {
       const { getRecommendedProducts } = api
       const recommendation = await getRecommendedProducts({ type: 'rate' })
-      this.recommendation = recommendation.length > 4 ? recommendation.slice(0, 4) : recommendation
+      this.recommendation = recommendation?.length > 4 ? recommendation.slice(0, 4) : recommendation
     },
     // link to product
     checkProductDetail (pid) {
