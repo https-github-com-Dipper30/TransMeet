@@ -17,7 +17,7 @@ export const handleResult = (res, notifySuccess = true, notifyMessage = 'Success
       router.push('/no-auth')
     }
     ElMessage({
-      message: res.msg,
+      message: res?.msg || 'error',
       type: 'error',
     })
     return false

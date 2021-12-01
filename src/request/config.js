@@ -236,3 +236,18 @@ export const searchProduct = async (p) => {
   if (!handleResult(res, false)) return
   return data.map(r => ({ ...r, listed: Boolean(r.listTS != null), avgRate: r.Ratings?.length > 0 ? Math.round(r.Ratings.reduce((prev, cur) => prev + cur.value, 0) / r.Ratings.length) : 0 }))
 }
+
+/**
+ * get each regions' total profits
+ */
+export const getProfitsByRegion = async () => {
+  const profits = await get('/profitByRegion')
+  if (!handleResult(profits, false)) return { raw: [], options: [] }
+  return { raw: profits.data, options: profits.data.map(p => ({ name: p.name, value: Number(p.profit) })) }
+}
+
+export const getConsumptionsByUser = async () => {
+  const consumptions = await get('/consumption')
+  if (!handleResult(consumptions, false)) return { raw: [], data: [], x: [] }
+  return { raw: consumptions.data, data: consumptions.data.map(c => Number(c.consumption)), x: consumptions.data.map(c => `${c.username}, id: ${c.uid}`) }
+}

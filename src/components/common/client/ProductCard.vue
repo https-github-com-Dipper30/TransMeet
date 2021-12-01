@@ -39,7 +39,7 @@ export default {
     product: {
       deep: true,
       handler: function (newValue, oldValue) {
-        if (newValue.imgList.length > 0) {
+        if (newValue?.imgList?.length > 0) {
           const img = newValue.imgList[0]
           document.getElementById(newValue.id).src = `data:image/${img.type};base64,${img.data}`
         }

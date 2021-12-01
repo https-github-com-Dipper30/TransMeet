@@ -2,7 +2,7 @@
   <div class="type-bar">
     <div class="types" v-if="cate>0 && cate<=6">
       <div class="item" v-for="(t, index) of types" :key="t.id" @click="onSelectType(t.code, index)">
-        <img :id="t.code" src="@/assets/common/types/1.jpg" :alt="t.name" />
+        <img :id="t.code" src="@/assets/common/types/temp.png" :alt="t.name" />
         <div class="label" :class="{'selected': selected == index}">{{ $t(`home.type.${t.code}`) }}</div>
       </div>
     </div>
@@ -50,7 +50,7 @@ export default {
       let i
       try {
         // eslint-disable-next-line global-require
-        i = require(`@/assets/common/types/${id}.jpg`)
+        i = require(`@/assets/common/types/${id}.png`)
       } catch (error) {
         i = tempImg
       }
