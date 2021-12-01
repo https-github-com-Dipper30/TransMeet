@@ -368,7 +368,6 @@ export default {
     const uid = Number(param[0].groups.v)
     this.uid = uid
     this.user = this.$store.getters.getUser
-    console.log(this.user, typeof this.uid)
     this.fetchUserData()
     const { getStatesOptions } = api
     const stateOptions = await getStatesOptions()

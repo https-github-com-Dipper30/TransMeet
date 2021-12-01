@@ -13,16 +13,11 @@
     <div class="row">
       <div id="consumptionChart"></div>
     </div>
-    <!-- <el-empty description="Home">
-      
-      
-    </el-empty> -->
   </div>
 </template>
 
 <script>
 import api from '../../request'
-// import * as echarts from '@/lib/echarts.js' 
 import echarts from '@/lib/echarts'
 
 export default {
@@ -86,7 +81,6 @@ export default {
   created () {
     this.getProfitsByRegion()
     this.getConsumptionsByUser()
-    console.log(echarts)
   },
 } 
 </script>
